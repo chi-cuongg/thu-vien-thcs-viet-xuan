@@ -57,7 +57,7 @@ export function NhapSoDkcb() {
   return (
     <div className="space-y-4 rounded-xl border border-border bg-surface p-5">
       <div className="flex flex-wrap items-center gap-3">
-        <label className="cursor-pointer rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-fg">
+        <label className="inline-flex min-h-10 items-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-fg transition-opacity hover:opacity-90 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary">
           Chọn file Excel / CSV
           <input type="file" accept=".xlsx,.csv" onChange={chonFile} className="sr-only" />
         </label>
@@ -74,14 +74,14 @@ export function NhapSoDkcb() {
       {thongBao && (
         <p
           role="status"
-          className={`rounded-lg px-3 py-2 text-sm ${thongBao.loai === "ok" ? "bg-primary-soft text-primary" : "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-200"}`}
+          className={`rounded-lg px-3 py-2 text-sm ${thongBao.loai === "ok" ? "bg-success-soft text-success" : "bg-danger-soft text-danger"}`}
         >
           {thongBao.noiDung}
         </p>
       )}
 
       {canhBao.some((c) => c.dong === 0) && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
+        <p className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">
           {canhBao.find((c) => c.dong === 0)!.noiDung}
         </p>
       )}
@@ -92,13 +92,13 @@ export function NhapSoDkcb() {
             <p className="text-sm">
               <strong>{dong.length}</strong> bản sách hợp lệ ·{" "}
               <span className="text-accent">{canhBao.length - soLoi} cảnh báo</span> ·{" "}
-              <span className="text-red-600">{soLoi} dòng bị bỏ qua</span>
+              <span className="text-danger">{soLoi} dòng bị bỏ qua</span>
             </p>
             <button
               type="button"
               disabled={pending}
               onClick={nhap}
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-fg disabled:opacity-60"
+              className="inline-flex min-h-10 items-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-fg transition-opacity hover:opacity-90 disabled:opacity-60"
             >
               {pending ? "Đang nhập…" : `Nhập ${dong.length} bản sách`}
             </button>
@@ -109,7 +109,7 @@ export function NhapSoDkcb() {
               <summary className="cursor-pointer font-medium">Cần thủ thư xem lại ({canhBao.length})</summary>
               <ul className="mt-2 space-y-1">
                 {canhBao.map((c, i) => (
-                  <li key={i} className={c.loi ? "text-red-700 dark:text-red-300" : ""}>
+                  <li key={i} className={c.loi ? "text-danger" : ""}>
                     Dòng {c.dong}: {c.noiDung}
                   </li>
                 ))}

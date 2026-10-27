@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { ResourceGrid } from "@/components/resource-card";
+import { ChipLoc, LuoiDangTai, NUT_PHU } from "@/components/ui";
 import { DANH_MUC, findDanhMuc, KHOI_LOP } from "@/config/taxonomy";
 import { getTaiLieuTheoDanhMuc } from "@/db/queries";
 
@@ -25,22 +26,30 @@ async function DanhSach({ slug, searchParams }: { slug: string } & Pick<PageProp
 
   return (
     <>
-      <div className="flex flex-wrap gap-2 text-sm">
-        {[undefined, ...KHOI_LOP].map((k) => (
-          <Link
-            key={k ?? "all"}
-            href={k ? `/danh-muc/${slug}?khoi=${k}` : `/danh-muc/${slug}`}
-            className={`rounded-full border px-3 py-1 ${k === khoiLoc ? "border-primary bg-primary-soft font-semibold text-primary" : "border-border text-muted hover:text-fg"}`}
-          >
-            {k ? `Lớp ${k}` : "Tất cả"}
-          </Link>
-        ))}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <ChipLoc
+          muc={[undefined, ...KHOI_LOP].map((k) => ({
+            href: k ? `/danh-muc/${slug}?khoi=${k}` : `/danh-muc/${slug}`,
+            nhan: k ? `Lớp ${k}` : "Tất cả",
+            dangChon: k === khoiLoc,
+          }))}
+        />
+        {items.length > 0 && <p className="text-sm text-muted">{items.length} tài liệu</p>}
       </div>
       <div className="mt-6">
         {items.length ? (
           <ResourceGrid items={items} />
         ) : (
-          <EmptyState title="Chưa có tài liệu">Thư viện đang cập nhật tài liệu cho mục này. Bạn quay lại sau nhé.</EmptyState>
+          <EmptyState
+            title={khoiLoc ? `Chưa có tài liệu lớp ${khoiLoc}` : "Chưa có tài liệu"}
+            actions={
+              <Link href="/danh-muc" className={NUT_PHU}>
+                Xem danh mục khác
+              </Link>
+            }
+          >
+            Thư viện đang cập nhật tài liệu cho mục này. Bạn quay lại sau nhé.
+          </EmptyState>
         )}
       </div>
     </>
@@ -56,7 +65,7 @@ async function DanhMucContent({ params, searchParams }: PageProps<"/danh-muc/[sl
     <>
       <PageHeader title={danhMuc.ten} description={danhMuc.moTa} crumbs={[{ href: "/danh-muc", label: "Danh mục" }]} />
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <Suspense fallback={<div className="h-48" aria-busy />}>
+        <Suspense fallback={<LuoiDangTai />}>
           <DanhSach slug={slug} searchParams={searchParams} />
         </Suspense>
       </div>

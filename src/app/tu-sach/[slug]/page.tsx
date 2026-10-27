@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
+import { NUT_PHU } from "@/components/ui";
 import { TU_SACH } from "@/config/taxonomy";
 
 export function generateStaticParams() {
@@ -24,7 +26,16 @@ async function TuSachContent({ params }: Pick<PageProps<"/tu-sach/[slug]">, "par
       <PageHeader title={tuSach.ten} description={tuSach.moTa} crumbs={[{ href: "/tu-sach", label: "Tủ sách" }]} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         {/* TODO: đọc các tài liệu của bộ sưu tập từ Neon (bảng bo_suu_tap_muc) */}
-        <EmptyState title="Tủ sách đang được sắp xếp">Thư viện sẽ sớm đưa sách vào tủ này.</EmptyState>
+        <EmptyState
+          title="Tủ sách đang được sắp xếp"
+          actions={
+            <Link href="/tu-sach" className={NUT_PHU}>
+              Xem tủ sách khác
+            </Link>
+          }
+        >
+          Thư viện sẽ sớm đưa sách vào tủ này.
+        </EmptyState>
       </div>
     </>
   );

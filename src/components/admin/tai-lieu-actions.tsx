@@ -16,16 +16,16 @@ export function NutTaiLieu({ id, trangThai, laThuThu }: { id: number; trangThai:
     });
   }
 
-  const nut = "rounded-md border px-2.5 py-1 text-sm font-medium disabled:opacity-50";
+  const nut = "inline-flex min-h-10 items-center rounded-lg border px-3 text-sm font-medium transition-colors disabled:opacity-50";
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex shrink-0 flex-wrap gap-2" aria-busy={pending}>
       {laThuThu && trangThai !== "da_duyet" && (
-        <button type="button" disabled={pending} onClick={() => chay(() => duyetTaiLieu(id))} className={`${nut} border-primary bg-primary text-primary-fg`}>
+        <button type="button" disabled={pending} onClick={() => chay(() => duyetTaiLieu(id))} className={`${nut} border-primary bg-primary text-primary-fg hover:opacity-90`}>
           Duyệt
         </button>
       )}
       {laThuThu && trangThai === "cho_duyet" && (
-        <button type="button" disabled={pending} onClick={() => chay(() => tuChoiTaiLieu(id))} className={`${nut} border-border hover:bg-surface-muted`}>
+        <button type="button" disabled={pending} onClick={() => chay(() => tuChoiTaiLieu(id))} className={`${nut} border-border hover:border-primary hover:text-primary`}>
           Từ chối
         </button>
       )}
@@ -36,7 +36,7 @@ export function NutTaiLieu({ id, trangThai, laThuThu }: { id: number; trangThai:
           onClick={() => {
             if (window.confirm("Xoá tài liệu này? File trên Drive sẽ được đưa vào thùng rác.")) chay(() => xoaTaiLieu(id));
           }}
-          className={`${nut} border-red-300 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-300 dark:hover:bg-red-950`}
+          className={`${nut} border-transparent text-danger hover:border-danger hover:bg-danger-soft`}
         >
           Xoá
         </button>

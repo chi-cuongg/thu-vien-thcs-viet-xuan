@@ -33,7 +33,7 @@ function guiFileLenDrive(uploadUrl: string, file: File, onProgress: (p: number) 
   });
 }
 
-const input = "mt-1 w-full rounded-lg border border-border bg-surface px-3 py-2 text-fg outline-none focus:border-primary focus:ring-2 focus:ring-primary/30";
+const input = "mt-1 min-h-11 w-full rounded-lg border border-border bg-surface px-3 py-2 text-fg outline-none transition-shadow focus:border-primary focus:ring-4 focus:ring-primary/20";
 const label = "block text-sm font-medium";
 
 export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
@@ -116,20 +116,27 @@ export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
       <fieldset disabled={dangXuLy} className="space-y-6">
         <div>
           <span className={label}>Nội dung</span>
-          <div className="mt-2 flex gap-2 text-sm">
+          <div className="mt-2 inline-flex rounded-lg border border-border bg-surface-muted p-1 text-sm">
             {(["file", "youtube"] as const).map((n) => (
               <button
                 key={n}
                 type="button"
+                aria-pressed={nguon === n}
                 onClick={() => setNguon(n)}
-                className={`rounded-full border px-3 py-1 ${nguon === n ? "border-primary bg-primary-soft font-semibold text-primary" : "border-border text-muted"}`}
+                className={`min-h-9 rounded-md px-4 font-medium transition-colors ${nguon === n ? "bg-surface text-primary shadow-sm" : "text-muted hover:text-fg"}`}
               >
                 {n === "file" ? "Tải file lên" : "Video YouTube"}
               </button>
             ))}
           </div>
           {nguon === "file" ? (
-            <input name="file" type="file" required className={`${input} file:mr-3 file:rounded-md file:border-0 file:bg-primary-soft file:px-3 file:py-1 file:text-primary`} />
+            <input
+              name="file"
+              type="file"
+              required
+              aria-label="Chọn file tài liệu"
+              className={`${input} border-dashed py-3 file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-primary-soft file:px-3 file:py-1.5 file:font-medium file:text-primary`}
+            />
           ) : (
             <input name="youtubeUrl" type="url" required placeholder="https://www.youtube.com/watch?v=…" className={input} />
           )}
@@ -178,7 +185,7 @@ export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
           </label>
           <fieldset>
             <legend className={label}>Khối lớp</legend>
-            <div className="mt-2 flex gap-4">
+            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
               {KHOI_LOP.map((k) => (
                 <label key={k} className="inline-flex items-center gap-1.5 text-sm">
                   <input type="checkbox" name="khoiLop" value={k} className="size-4 accent-primary" /> Lớp {k}
@@ -231,13 +238,13 @@ export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
       )}
       {trangThai.buoc === "dang-luu" && <p className="text-sm text-muted" aria-live="polite">Đang lưu thông tin…</p>}
       {trangThai.buoc === "loi" && (
-        <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-200">
+        <p role="alert" className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">
           {trangThai.thongBao}
         </p>
       )}
 
       <div className="flex items-center gap-3">
-        <button type="submit" disabled={dangXuLy} className="rounded-lg bg-primary px-5 py-2.5 font-semibold text-primary-fg disabled:opacity-60">
+        <button type="submit" disabled={dangXuLy} className="inline-flex min-h-11 items-center rounded-lg bg-primary px-5 font-semibold text-primary-fg transition-opacity hover:opacity-90 disabled:opacity-60">
           {laThuThu ? "Đăng tài liệu" : "Gửi để thủ thư duyệt"}
         </button>
       </div>

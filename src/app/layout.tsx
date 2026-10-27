@@ -19,9 +19,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="vi" className={`${beVietnam.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col font-sans">
+      {/* pb trên điện thoại: chừa chỗ cho thanh điều hướng ở đáy */}
+      <body className="flex min-h-full flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] font-sans md:pb-0">
+        <a
+          href="#noi-dung"
+          className="sr-only z-50 rounded-lg bg-primary px-4 py-2 font-semibold text-primary-fg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        >
+          Bỏ qua, tới nội dung chính
+        </a>
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <main id="noi-dung" className="flex-1">
+          {children}
+        </main>
         <SiteFooter />
       </body>
     </html>

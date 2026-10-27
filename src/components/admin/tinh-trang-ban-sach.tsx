@@ -28,7 +28,7 @@ export function TinhTrangBanSach({ soDkcb, tinhTrang }: { soDkcb: string; tinhTr
           router.refresh();
         });
       }}
-      className="rounded-md border border-border bg-surface px-2 py-1 text-sm disabled:opacity-50"
+      className="min-h-9 rounded-lg border border-border bg-surface px-2 text-sm disabled:opacity-50"
     >
       {TINH_TRANG.map((t) => (
         <option key={t.id} value={t.id}>

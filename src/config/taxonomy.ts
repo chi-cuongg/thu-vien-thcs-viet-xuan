@@ -85,13 +85,13 @@ export function tenLoai(id: string): string {
   return LOAI_TAI_LIEU.find((l) => l.id === id)?.ten ?? id;
 }
 
-export const TU_SACH: { slug: string; ten: string; moTa: string }[] = [
-  { slug: "sach-hay-nen-doc", ten: "Sách hay nên đọc", moTa: "Thư viện gợi ý mỗi tháng" },
-  { slug: "on-thi-vao-10", ten: "Ôn thi vào lớp 10", moTa: "Đề minh hoạ, chuyên đề Toán – Văn – Anh" },
-  { slug: "tu-sach-bac-ho", ten: "Tủ sách Bác Hồ", moTa: "Học tập và làm theo tấm gương Bác" },
-  { slug: "ky-nang-song", ten: "Tủ sách kỹ năng sống", moTa: "An toàn, mạng xã hội, phòng chống đuối nước" },
-  { slug: "sach-noi", ten: "Sách nói", moTa: "Nghe truyện, nghe văn học" },
-  { slug: "dia-phuong", ten: "Góc địa phương", moTa: "Vĩnh Tường – Phú Thọ quê hương em" },
+export const TU_SACH: { slug: string; ten: string; moTa: string; icon: string }[] = [
+  { slug: "sach-hay-nen-doc", ten: "Sách hay nên đọc", moTa: "Thư viện gợi ý mỗi tháng", icon: "Sparkles" },
+  { slug: "on-thi-vao-10", ten: "Ôn thi vào lớp 10", moTa: "Đề minh hoạ, chuyên đề Toán – Văn – Anh", icon: "GraduationCap" },
+  { slug: "tu-sach-bac-ho", ten: "Tủ sách Bác Hồ", moTa: "Học tập và làm theo tấm gương Bác", icon: "Star" },
+  { slug: "ky-nang-song", ten: "Tủ sách kỹ năng sống", moTa: "An toàn, mạng xã hội, phòng chống đuối nước", icon: "ShieldCheck" },
+  { slug: "sach-noi", ten: "Sách nói", moTa: "Nghe truyện, nghe văn học", icon: "Headphones" },
+  { slug: "dia-phuong", ten: "Góc địa phương", moTa: "Vĩnh Tường – Phú Thọ quê hương em", icon: "MapPin" },
 ];
 
 export const LIEN_KET: { ten: string; url: string; moTa: string }[] = [

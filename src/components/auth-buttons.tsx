@@ -24,7 +24,7 @@ export function GoogleSignInButton() {
         type="button"
         onClick={signIn}
         disabled={pending}
-        className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 font-semibold hover:bg-surface-muted disabled:opacity-60"
+        className="flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 font-semibold shadow-sm transition-colors hover:border-primary hover:bg-surface-muted disabled:opacity-60"
       >
         <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" />
@@ -35,7 +35,7 @@ export function GoogleSignInButton() {
         {pending ? "Đang chuyển tới Google…" : "Đăng nhập bằng Google"}
       </button>
       {error && (
-        <p role="alert" className="mt-3 text-sm text-red-600">
+        <p role="alert" className="mt-3 rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">
           {error}
         </p>
       )}
@@ -53,7 +53,7 @@ export function SignOutButton() {
         router.push("/");
         router.refresh();
       }}
-      className="rounded-lg border border-border px-3 py-1.5 text-sm font-medium hover:bg-surface-muted"
+      className="inline-flex min-h-10 items-center rounded-lg border border-border px-3 text-sm font-medium transition-colors hover:border-danger hover:text-danger"
     >
       Đăng xuất
     </button>

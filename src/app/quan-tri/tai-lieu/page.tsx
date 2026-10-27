@@ -2,8 +2,10 @@ import { and, desc, eq, sql } from "drizzle-orm";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { Upload } from "lucide-react";
 import { NutTaiLieu } from "@/components/admin/tai-lieu-actions";
 import { EmptyState } from "@/components/empty-state";
+import { DongDangTai, NUT_CHINH } from "@/components/ui";
 import { tenLoai } from "@/config/taxonomy";
 import { getDb } from "@/db";
 import { danhMuc, taiLieu, user } from "@/db/schema";
@@ -60,21 +62,27 @@ async function DanhSach({ searchParams }: Pick<PageProps<"/quan-tri/tai-lieu">, 
 
   return (
     <>
-      <div className="mt-6 flex flex-wrap gap-2 text-sm">
+      <nav aria-label="Lọc theo trạng thái" className="mt-6 flex gap-1 overflow-x-auto border-b border-border text-sm">
         {TAB.map((t) => (
           <Link
             key={t.id}
+            aria-current={t.id === trangThai ? "page" : undefined}
             href={`/quan-tri/tai-lieu?tab=${t.id}`}
-            className={`rounded-full border px-3 py-1 ${t.id === trangThai ? "border-primary bg-primary-soft font-semibold text-primary" : "border-border text-muted hover:text-fg"}`}
+            className={`-mb-px inline-flex min-h-11 shrink-0 items-center gap-2 border-b-2 px-3 font-medium transition-colors ${t.id === trangThai ? "border-primary text-primary" : "border-transparent text-muted hover:text-fg"}`}
           >
-            {t.ten} ({soLuong(t.id)})
+            {t.ten}
+            <span
+              className={`rounded-full px-2 py-0.5 text-xs tabular-nums ${t.id === "cho_duyet" && soLuong(t.id) > 0 ? "bg-accent-soft font-semibold text-accent" : "bg-surface-muted"}`}
+            >
+              {soLuong(t.id)}
+            </span>
           </Link>
         ))}
-      </div>
+      </nav>
 
       <div className="mt-4">
         {rows.length === 0 ? (
-          <EmptyState title="Không có tài liệu nào" />
+          <EmptyState title={trangThai === "cho_duyet" ? "Không có tài liệu nào chờ duyệt" : "Không có tài liệu nào"} />
         ) : (
           <ul className="divide-y divide-border rounded-xl border border-border bg-surface">
             {rows.map((r) => (
@@ -85,22 +93,22 @@ async function DanhSach({ searchParams }: Pick<PageProps<"/quan-tri/tai-lieu">, 
                     {tenLoai(r.loai)} · {r.danhMuc ?? "—"} · {TEN_QUYEN[r.quyenTruyCap]}
                     {r.tacGia && ` · ${r.tacGia}`}
                   </p>
-                  <p className="text-xs text-muted">
+                  <p className="mt-0.5 text-xs text-muted">
                     Đăng bởi {r.nguoiDang ?? "—"} lúc {r.createdAt.toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}
                   </p>
-                  <div className="mt-1 flex gap-3 text-sm">
+                  <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                     {r.driveFileId && (
-                      <a href={`/api/tai-lieu/${r.id}/file`} target="_blank" rel="noopener" className="text-primary underline">
+                      <a href={`/api/tai-lieu/${r.id}/file`} target="_blank" rel="noopener" className="font-medium text-primary hover:underline">
                         Xem file
                       </a>
                     )}
                     {r.youtubeId && (
-                      <a href={`https://www.youtube.com/watch?v=${r.youtubeId}`} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                      <a href={`https://www.youtube.com/watch?v=${r.youtubeId}`} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
                         Xem video
                       </a>
                     )}
                     {r.trangThai === "da_duyet" && (
-                      <Link href={`/tai-lieu/${r.slug}`} className="text-primary underline">
+                      <Link href={`/tai-lieu/${r.slug}`} className="font-medium text-primary hover:underline">
                         Trang công khai
                       </Link>
                     )}
@@ -124,11 +132,17 @@ export default function QuanLyTaiLieuPage({ searchParams }: PageProps<"/quan-tri
           <h1 className="text-2xl font-bold">Duyệt & quản lý tài liệu</h1>
           <p className="mt-1 text-sm text-muted">Thủ thư duyệt tài liệu giáo viên gửi; giáo viên xem trạng thái tài liệu của mình.</p>
         </div>
-        <Link href="/quan-tri/dang-tai-lieu" className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-fg">
-          + Đăng tài liệu
+        <Link href="/quan-tri/dang-tai-lieu" className={`${NUT_CHINH} text-sm`}>
+          <Upload className="size-4" aria-hidden /> Đăng tài liệu
         </Link>
       </div>
-      <Suspense fallback={<div className="mt-6 h-64 rounded-xl border border-border bg-surface" aria-busy />}>
+      <Suspense
+        fallback={
+          <div className="mt-6">
+            <DongDangTai />
+          </div>
+        }
+      >
         <DanhSach searchParams={searchParams} />
       </Suspense>
     </div>

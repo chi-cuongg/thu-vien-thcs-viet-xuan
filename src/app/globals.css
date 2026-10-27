@@ -12,6 +12,10 @@
   --primary-soft: #e3ecf5;
   --accent: #b45309;
   --accent-soft: #fbeedd;
+  --success: #166534;
+  --success-soft: #dcfce7;
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +31,10 @@
     --primary-soft: #1d2f43;
     --accent: #f0b35a;
     --accent-soft: #3a2b16;
+    --success: #86efac;
+    --success-soft: #14321f;
+    --danger: #fca5a5;
+    --danger-soft: #3b1618;
   }
 }
 
@@ -42,10 +50,45 @@
   --color-primary-soft: var(--primary-soft);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
   --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
 }
 
-body {
-  background: var(--bg);
-  color: var(--fg);
+@layer base {
+  html {
+    /* Chừa chỗ cho header dính khi nhảy tới #neo */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  /* Tailwind v4 bỏ con trỏ bàn tay mặc định của nút */
+  button:not(:disabled),
+  [role="button"],
+  summary,
+  select:not(:disabled),
+  label:has(> input[type="file"]) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
