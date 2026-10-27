@@ -4,5 +4,5 @@ export const TEN_VAI_TRO: Record<VaiTro, string> = {
   admin: "Quản trị viên",
   thu_thu: "Thủ thư",
   giao_vien: "Giáo viên",
-  nguoi_dung: "Chưa được cấp quyền",
+  nguoi_dung: "Học sinh / bạn đọc",
 };

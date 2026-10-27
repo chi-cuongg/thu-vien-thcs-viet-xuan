@@ -2,7 +2,7 @@ import "server-only";
 import { and, arrayContains, desc, eq, inArray, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { getDb } from "@/db";
-import { banSach, danhMuc, dauSach, monHoc, taiLieu } from "@/db/schema";
+import { banSach, danhMuc, dauSach, monHoc, phieuMuon, taiLieu } from "@/db/schema";
 
 // Dữ liệu công khai, cache theo giờ. Khi thủ thư duyệt / nhập sổ, Server Action gọi updateTag để làm mới ngay.
 export const TAG_TAI_LIEU = "tai-lieu";
@@ -114,6 +114,8 @@ export async function traCuuSachGiay(q: string) {
       monLoai: dauSach.monLoai,
       soBan: sql<number>`count(${banSach.id})::int`,
       conTrenGia: sql<number>`(count(${banSach.id}) filter (where ${banSach.tinhTrang} = 'tren_gia'))::int`,
+      // Bản trên giá nhưng đã có bạn đặt trước, chờ đến nhận
+      dangDat: sql<number>`(select count(*) from ${phieuMuon} where ${phieuMuon.dauSachId} = ${dauSach.id} and ${phieuMuon.trangThai} = 'cho_nhan')::int`,
       dsDkcb: sql<string[]>`array_agg(${banSach.soDkcb} order by ${banSach.soDkcb})`,
     })
     .from(dauSach)

@@ -15,6 +15,7 @@ import {
   smallint,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 const createdAt = () => timestamp("created_at", { withTimezone: true }).notNull().defaultNow();
@@ -40,8 +41,12 @@ export const user = pgTable(
     email: text("email").notNull().unique(),
     emailVerified: boolean("email_verified").notNull().default(false),
     image: text("image"),
-    // admin, thu_thu: quản lý toàn bộ; giao_vien: đăng tài liệu chờ duyệt; nguoi_dung: mới đăng nhập, chưa có quyền
+    // admin, thu_thu: quản lý toàn bộ; giao_vien: đăng tài liệu chờ duyệt; nguoi_dung: học sinh / bạn đọc (đặt mượn sách)
     role: text("role").$type<VaiTro>().notNull().default("nguoi_dung"),
+    // Tài khoản học sinh do thủ thư cấp: đăng nhập bằng mã học sinh (plugin username của Better Auth)
+    username: text("username").unique(),
+    displayUsername: text("display_username"),
+    lop: text("lop"), // '6A', '9C'
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
@@ -177,6 +182,39 @@ export const banSach = pgTable(
       "ban_sach_tinh_trang_check",
       sql`${t.tinhTrang} in ('tren_gia', 'dang_muon', 'hong', 'mat', 'thanh_ly')`,
     ),
+  ],
+);
+
+// Phiếu mượn: học sinh đặt một đầu sách (cho_nhan) → thủ thư giao một bản cụ thể (dang_muon) → trả (da_tra).
+// Huỷ khi học sinh đổi ý hoặc không đến nhận (da_huy).
+export const TRANG_THAI_MUON = ["cho_nhan", "dang_muon", "da_tra", "da_huy"] as const;
+export type TrangThaiMuon = (typeof TRANG_THAI_MUON)[number];
+
+export const phieuMuon = pgTable(
+  "phieu_muon",
+  {
+    id: id(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    dauSachId: bigint("dau_sach_id", { mode: "number" })
+      .notNull()
+      .references(() => dauSach.id, { onDelete: "cascade" }),
+    banSachId: bigint("ban_sach_id", { mode: "number" }).references(() => banSach.id, { onDelete: "set null" }),
+    trangThai: text("trang_thai").$type<TrangThaiMuon>().notNull().default("cho_nhan"),
+    ngayMuon: timestamp("ngay_muon", { withTimezone: true }),
+    hanTra: date("han_tra"),
+    ngayTra: timestamp("ngay_tra", { withTimezone: true }),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index("phieu_muon_user_idx").on(t.userId),
+    index("phieu_muon_trang_thai_idx").on(t.trangThai),
+    // Mỗi học sinh chỉ giữ một phiếu đang hiệu lực cho cùng một đầu sách
+    uniqueIndex("phieu_muon_dang_hieu_luc_idx")
+      .on(t.userId, t.dauSachId)
+      .where(sql`${t.trangThai} in ('cho_nhan', 'dang_muon')`),
+    check("phieu_muon_trang_thai_check", sql`${t.trangThai} in ('cho_nhan', 'dang_muon', 'da_tra', 'da_huy')`),
   ],
 );
 

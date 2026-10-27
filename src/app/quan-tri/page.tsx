@@ -3,23 +3,24 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { ArrowRight, BookText, FileCheck2, Upload, Users } from "lucide-react";
+import { ArrowLeftRight, ArrowRight, BookText, FileCheck2, GraduationCap, Upload, Users } from "lucide-react";
 import { SignOutButton } from "@/components/auth-buttons";
 import { TEN_VAI_TRO } from "@/config/vai-tro";
 import { getDb } from "@/db";
+import { demPhieuMuon } from "@/db/muon-sach";
 import { banSach, taiLieu, user, type VaiTro } from "@/db/schema";
-import { getSession, hasRole, STAFF_ROLES } from "@/lib/session";
+import { duongDanDangNhap, getSession, hasRole, STAFF_ROLES } from "@/lib/session";
 
 export const metadata: Metadata = { title: "Quản trị" };
 
 async function QuanTriContent() {
   const session = await getSession();
-  if (!session) redirect("/dang-nhap");
+  if (!session) redirect(duongDanDangNhap("/quan-tri"));
   const role = session.user.role as VaiTro;
   const laThuThu = hasRole(session, STAFF_ROLES);
 
   const db = getDb();
-  const [[taiLieuDem], [sachDem], [nguoiDem]] = laThuThu
+  const [[taiLieuDem], [sachDem], [nguoiDem], muon] = laThuThu
     ? await Promise.all([
         db
           .select({
@@ -28,9 +29,15 @@ async function QuanTriContent() {
           })
           .from(taiLieu),
         db.select({ ban: sql<number>`count(*)::int` }).from(banSach),
-        db.select({ chuaCap: sql<number>`(count(*) filter (where ${user.role} = 'nguoi_dung'))::int` }).from(user),
+        db
+          .select({
+            hocSinh: sql<number>`(count(*) filter (where ${user.username} is not null))::int`,
+            tong: sql<number>`count(*)::int`,
+          })
+          .from(user),
+        demPhieuMuon(),
       ])
-    : [[null], [null], [null]];
+    : [[null], [null], [null], null];
 
   const oChucNang = [
     {
@@ -50,15 +57,31 @@ async function QuanTriContent() {
       hien: role !== "nguoi_dung",
       noiBat: (taiLieuDem?.choDuyet ?? 0) > 0,
     },
+    {
+      href: "/quan-tri/muon-tra",
+      ten: "Mượn trả",
+      moTa: `${muon?.choNhan ?? 0} chờ nhận · ${muon?.dangMuon ?? 0} đang mượn${muon?.quaHan ? ` · ${muon.quaHan} quá hạn` : ""}`,
+      icon: ArrowLeftRight,
+      tone: "bg-tone-orange-soft text-tone-orange",
+      hien: laThuThu,
+      noiBat: (muon?.choNhan ?? 0) + (muon?.quaHan ?? 0) > 0,
+    },
     { href: "/quan-tri/so-dkcb", ten: "Sổ đăng ký cá biệt", moTa: `${(sachDem?.ban ?? 0).toLocaleString("vi-VN")} bản sách giấy`, icon: BookText, tone: "bg-tone-green-soft text-tone-green", hien: laThuThu },
+    {
+      href: "/quan-tri/hoc-sinh",
+      ten: "Tài khoản học sinh",
+      moTa: `${(nguoiDem?.hocSinh ?? 0).toLocaleString("vi-VN")} tài khoản đăng nhập bằng mã HS`,
+      icon: GraduationCap,
+      tone: "bg-tone-yellow-soft text-tone-yellow",
+      hien: laThuThu,
+    },
     {
       href: "/quan-tri/nguoi-dung",
       ten: "Người dùng",
-      moTa: `${nguoiDem?.chuaCap ?? 0} tài khoản chờ cấp quyền`,
+      moTa: `${nguoiDem?.tong ?? 0} tài khoản · cấp quyền giáo viên, thủ thư`,
       icon: Users,
       tone: "bg-tone-pink-soft text-tone-pink",
       hien: role === "admin",
-      noiBat: (nguoiDem?.chuaCap ?? 0) > 0,
     },
   ].filter((o) => o.hien);
 
@@ -80,14 +103,18 @@ async function QuanTriContent() {
 
       {role === "nguoi_dung" ? (
         <div role="status" className="mt-6 rounded-3xl border-[1.5px] border-accent bg-accent-soft p-5">
-          <p className="font-semibold">Tài khoản đang chờ cấp quyền</p>
+          <p className="font-semibold">Tài khoản chưa có quyền quản trị</p>
           <p className="mt-1 text-sm">
-            Hãy báo thủ thư (kèm email <strong>{session.user.email}</strong>) để được cấp quyền giáo viên hoặc thủ thư, sau đó tải lại
-            trang này.
+            Nếu bạn là giáo viên hoặc thủ thư, hãy báo quản trị viên (kèm email <strong>{session.user.email}</strong>) để được cấp
+            quyền, sau đó tải lại trang này. Học sinh xem sách đã mượn ở{" "}
+            <Link href="/tai-khoan" className="font-bold text-primary underline">
+              Sách tôi mượn
+            </Link>
+            .
           </p>
         </div>
       ) : (
-        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {oChucNang.map((o) => (
             <li key={o.href}>
               <Link

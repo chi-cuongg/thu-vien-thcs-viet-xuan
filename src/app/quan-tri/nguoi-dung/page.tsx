@@ -38,8 +38,8 @@ export default function NguoiDungPage() {
     <div className="mx-auto max-w-4xl px-4 py-8">
       <h1 className="text-2xl font-bold">Người dùng</h1>
       <p className="mt-1 text-sm text-muted">
-        Giáo viên đăng nhập bằng Google lần đầu sẽ ở trạng thái “Chưa được cấp quyền”. Chọn vai trò để cho phép đăng tài liệu
-        (Giáo viên) hoặc duyệt, nhập sổ (Thủ thư).
+        Ai đăng nhập bằng Google lần đầu cũng là “Học sinh / bạn đọc” (chỉ đặt mượn sách). Chọn vai trò để cho phép đăng tài liệu
+        (Giáo viên) hoặc duyệt, nhập sổ, quản lý mượn trả (Thủ thư).
       </p>
       <Suspense fallback={<div className="mt-6 h-48 the" aria-busy />}>
         <DanhSach />

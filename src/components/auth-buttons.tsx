@@ -2,16 +2,90 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { NUT_CHINH } from "@/components/ui";
 import { authClient } from "@/lib/auth-client";
 
-export function GoogleSignInButton() {
+// Nền ô nhập khác nền thẻ để nhìn rõ ô cả ở giao diện tối
+const O_NHAP =
+  "mt-1.5 block min-h-12 w-full rounded-2xl border-[1.5px] border-border bg-surface-muted px-4 text-base outline-none transition focus:border-primary focus:bg-surface";
+
+/** Học sinh không có Gmail: đăng nhập bằng mã học sinh và mật khẩu thủ thư phát. */
+export function MaHocSinhForm({ tiep }: { tiep: string }) {
+  const router = useRouter();
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function dangNhap(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    setPending(true);
+    setError(null);
+    const { error } = await authClient.signIn.username({
+      username: String(form.get("ma") ?? "").trim(),
+      password: String(form.get("mat-khau") ?? ""),
+    });
+    if (error) {
+      setError(
+        error.status === 429
+          ? "Thử sai quá nhiều lần. Đợi một lát rồi thử lại."
+          : "Sai mã học sinh hoặc mật khẩu. Kiểm tra lại, hoặc nhờ thủ thư cấp lại mật khẩu.",
+      );
+      setPending(false);
+      return;
+    }
+    router.push(tiep);
+    router.refresh();
+  }
+
+  return (
+    <form onSubmit={dangNhap} className="space-y-4">
+      <div>
+        <label htmlFor="ma" className="text-sm font-bold">
+          Mã học sinh
+        </label>
+        <input
+          id="ma"
+          name="ma"
+          required
+          autoComplete="username"
+          autoCapitalize="none"
+          spellCheck={false}
+          className={O_NHAP}
+        />
+      </div>
+      <div>
+        <label htmlFor="mat-khau" className="text-sm font-bold">
+          Mật khẩu
+        </label>
+        <input
+          id="mat-khau"
+          name="mat-khau"
+          type="password"
+          required
+          autoComplete="current-password"
+          className={O_NHAP}
+        />
+      </div>
+      {error && (
+        <p role="alert" className="rounded-2xl bg-danger-soft px-4 py-3 text-sm text-danger">
+          {error}
+        </p>
+      )}
+      <button type="submit" disabled={pending} className={`${NUT_CHINH} w-full`}>
+        {pending ? "Đang đăng nhập…" : "Đăng nhập"}
+      </button>
+    </form>
+  );
+}
+
+export function GoogleSignInButton({ tiep = "/tai-khoan" }: { tiep?: string }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function signIn() {
     setPending(true);
     setError(null);
-    const { error } = await authClient.signIn.social({ provider: "google", callbackURL: "/quan-tri" });
+    const { error } = await authClient.signIn.social({ provider: "google", callbackURL: tiep });
     if (error) {
       setError(error.message ?? "Không đăng nhập được, thử lại sau.");
       setPending(false);

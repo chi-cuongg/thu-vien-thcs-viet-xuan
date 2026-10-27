@@ -1,11 +1,13 @@
-import { BookText, FileCheck2, LayoutDashboard, Upload, Users } from "lucide-react";
+import { ArrowLeftRight, BookText, FileCheck2, GraduationCap, LayoutDashboard, Upload, Users } from "lucide-react";
 import { NavLink } from "@/components/nav-link";
 
 const MENU = [
   { href: "/quan-tri", label: "Tổng quan", icon: LayoutDashboard },
   { href: "/quan-tri/dang-tai-lieu", label: "Đăng tài liệu", icon: Upload },
   { href: "/quan-tri/tai-lieu", label: "Duyệt & quản lý tài liệu", icon: FileCheck2 },
+  { href: "/quan-tri/muon-tra", label: "Mượn trả", icon: ArrowLeftRight },
   { href: "/quan-tri/so-dkcb", label: "Sổ đăng ký cá biệt", icon: BookText },
+  { href: "/quan-tri/hoc-sinh", label: "Tài khoản học sinh", icon: GraduationCap },
   { href: "/quan-tri/nguoi-dung", label: "Người dùng", icon: Users },
 ];
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CircleCheck, CircleMinus, Lightbulb, SearchX } from "lucide-react";
+import { DatMuonNut } from "@/components/dat-muon-nut";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { SearchBox } from "@/components/search-box";
@@ -36,7 +37,7 @@ async function KetQua({ tuKhoa }: { tuKhoa: string }) {
           {tong.banSach > 0
             ? `Kho hiện có ${tong.dauSach.toLocaleString("vi-VN")} đầu sách, ${tong.banSach.toLocaleString("vi-VN")} bản. `
             : "Thư viện đang nhập dữ liệu từ sổ đăng ký cá biệt. "}
-          Tìm thấy sách còn trên giá thì ghi lại số ĐKCB và đưa cho thủ thư khi đến mượn.
+          Tìm thấy sách còn trên giá thì bấm <strong>Đặt mượn</strong> rồi đến thư viện nhận sách.
         </p>
       </div>
     );
@@ -57,7 +58,9 @@ async function KetQua({ tuKhoa }: { tuKhoa: string }) {
       </p>
       <ul className="divide-y divide-border overflow-hidden the">
         {ketQua.map((s) => {
-          const con = s.conTrenGia > 0;
+          // Bản đã có bạn đặt trước thì không tính là còn
+          const conLai = Math.max(s.conTrenGia - s.dangDat, 0);
+          const con = conLai > 0;
           return (
             <li key={s.id} className="flex flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:justify-between">
               <div className="min-w-0">
@@ -72,14 +75,17 @@ async function KetQua({ tuKhoa }: { tuKhoa: string }) {
                   Số ĐKCB: <span className="font-mono text-fg [overflow-wrap:anywhere]">{s.dsDkcb.join(", ")}</span>
                 </p>
               </div>
-              <span
-                className={`inline-flex shrink-0 items-center gap-1.5 self-start rounded-full px-3 py-1 text-sm font-medium md:self-auto ${
-                  con ? "bg-success-soft text-success" : "bg-surface-muted text-muted"
-                }`}
-              >
-                {con ? <CircleCheck className="size-4" aria-hidden /> : <CircleMinus className="size-4" aria-hidden />}
-                {con ? `Còn ${s.conTrenGia}/${s.soBan} bản trên giá` : `Đã mượn hết (${s.soBan} bản)`}
-              </span>
+              <div className="flex shrink-0 flex-col items-start gap-2 md:items-end">
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${
+                    con ? "bg-success-soft text-success" : "bg-surface-muted text-muted"
+                  }`}
+                >
+                  {con ? <CircleCheck className="size-4" aria-hidden /> : <CircleMinus className="size-4" aria-hidden />}
+                  {con ? `Còn ${conLai}/${s.soBan} bản trên giá` : `Đã mượn hết (${s.soBan} bản)`}
+                </span>
+                {con && <DatMuonNut dauSachId={s.id} tiep={`/tra-cuu?q=${encodeURIComponent(tuKhoa)}`} />}
+              </div>
             </li>
           );
         })}
