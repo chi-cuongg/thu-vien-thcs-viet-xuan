@@ -38,6 +38,11 @@ export function SiteFooter() {
                 Tìm kiếm tài liệu
               </Link>
             </li>
+            <li>
+              <Link href="/chinh-sach-bao-mat" className="inline-block py-1 text-muted hover:text-primary">
+                Chính sách quyền riêng tư
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="sm:col-span-2 lg:col-span-1">
