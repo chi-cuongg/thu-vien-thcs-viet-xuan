@@ -56,6 +56,35 @@ export const MON_HOC: { id: string; ten: string }[] = [
 
 export const KHOI_LOP = [6, 7, 8, 9] as const;
 
+export const LOAI_TAI_LIEU: { id: string; ten: string }[] = [
+  { id: "sach", ten: "Sách" },
+  { id: "bai_giang", ten: "Bài giảng" },
+  { id: "giao_an", ten: "Giáo án" },
+  { id: "de_thi", ten: "Đề thi" },
+  { id: "tu_lieu", ten: "Tư liệu" },
+  { id: "video", ten: "Video" },
+  { id: "audio", ten: "Âm thanh" },
+  { id: "van_ban", ten: "Văn bản" },
+  { id: "hinh_anh", ten: "Hình ảnh" },
+];
+
+export const BO_SACH: { id: string; ten: string }[] = [
+  { id: "kntt", ten: "Kết nối tri thức" },
+  { id: "ctst", ten: "Chân trời sáng tạo" },
+  { id: "canh-dieu", ten: "Cánh Diều" },
+  { id: "khac", ten: "Khác" },
+];
+
+export const QUYEN_TRUY_CAP: { id: string; ten: string; moTa: string }[] = [
+  { id: "cong_khai", ten: "Công khai", moTa: "Ai cũng đọc được" },
+  { id: "dang_nhap", ten: "Cần đăng nhập", moTa: "Chỉ người đã đăng nhập" },
+  { id: "noi_bo", ten: "Nội bộ", moTa: "Chỉ thủ thư và người đăng" },
+];
+
+export function tenLoai(id: string): string {
+  return LOAI_TAI_LIEU.find((l) => l.id === id)?.ten ?? id;
+}
+
 export const TU_SACH: { slug: string; ten: string; moTa: string }[] = [
   { slug: "sach-hay-nen-doc", ten: "Sách hay nên đọc", moTa: "Thư viện gợi ý mỗi tháng" },
   { slug: "on-thi-vao-10", ten: "Ôn thi vào lớp 10", moTa: "Đề minh hoạ, chuyên đề Toán – Văn – Anh" },

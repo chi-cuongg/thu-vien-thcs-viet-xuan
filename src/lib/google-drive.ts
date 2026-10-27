@@ -17,9 +17,10 @@ export type DriveFile = {
   parents?: string[];
   modifiedTime?: string;
   webViewLink?: string;
+  appProperties?: Record<string, string>;
 };
 
-const FILE_FIELDS = "id,name,mimeType,size,parents,modifiedTime,webViewLink";
+const FILE_FIELDS = "id,name,mimeType,size,parents,modifiedTime,webViewLink,appProperties";
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -103,6 +104,8 @@ export async function createResumableUploadSession(input: {
   size: number;
   parentId?: string;
   origin: string;
+  /** Gắn vào file để sau này kiểm tra đúng người upload (Drive appProperties) */
+  appProperties?: Record<string, string>;
 }): Promise<string> {
   const token = await getAccessToken();
   const res = await fetch(`${UPLOAD_API}/files?uploadType=resumable&fields=${FILE_FIELDS}`, {
@@ -114,7 +117,11 @@ export async function createResumableUploadSession(input: {
       "X-Upload-Content-Length": String(input.size),
       Origin: input.origin,
     },
-    body: JSON.stringify({ name: input.name, parents: [input.parentId ?? rootFolderId()] }),
+    body: JSON.stringify({
+      name: input.name,
+      parents: [input.parentId ?? rootFolderId()],
+      appProperties: input.appProperties,
+    }),
     cache: "no-store",
   });
   const uploadUrl = res.headers.get("location");
@@ -135,6 +142,44 @@ export async function setDownloadRestricted(fileId: string, restricted: boolean)
   await driveFetch(`${DRIVE_API}/files/${fileId}`, {
     method: "PATCH",
     body: JSON.stringify({ copyRequiresWriterPermission: restricted }),
+  });
+}
+
+// Thư mục con theo tên (ví dụ theo danh mục); nhớ id trong bộ nhớ để khỏi tìm lại.
+const folderCache = new Map<string, string>();
+
+export async function findOrCreateFolder(name: string, parentId: string = rootFolderId()): Promise<string> {
+  const key = `${parentId}/${name}`;
+  const cached = folderCache.get(key);
+  if (cached) return cached;
+
+  const escaped = name.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+  const params = new URLSearchParams({
+    q: `name = '${escaped}' and mimeType = '${FOLDER_MIME}' and '${parentId}' in parents and trashed = false`,
+    fields: "files(id)",
+  });
+  const { files } = await driveFetch<{ files: { id: string }[] }>(`${DRIVE_API}/files?${params}`);
+  const id = files[0]?.id ?? (await createFolder(name, parentId)).id;
+  folderCache.set(key, id);
+  return id;
+}
+
+/** Tải nội dung file (dùng để xem tài liệu chưa công khai qua server). */
+export async function downloadFile(fileId: string): Promise<Response> {
+  const token = await getAccessToken();
+  const res = await fetch(`${DRIVE_API}/files/${fileId}?alt=media`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Không tải được file ${fileId}: ${res.status}`);
+  return res;
+}
+
+/** Đưa file vào thùng rác của Drive (khôi phục được trong 30 ngày). */
+export async function trashFile(fileId: string): Promise<void> {
+  await driveFetch(`${DRIVE_API}/files/${fileId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ trashed: true }),
   });
 }
 

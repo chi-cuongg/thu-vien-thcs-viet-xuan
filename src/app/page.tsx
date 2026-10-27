@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, BookCopy, GraduationCap, Headphones, Library } from "lucide-react";
+import { Suspense } from "react";
 import { CategoryIcon } from "@/components/category-icon";
+import { ResourceGrid } from "@/components/resource-card";
+import { getTaiLieuMoi } from "@/db/queries";
 import { SearchBox } from "@/components/search-box";
 import { SITE } from "@/config/site";
 import { DANH_MUC, KHOI_LOP, NHOM_DANH_MUC, TU_SACH } from "@/config/taxonomy";
@@ -11,6 +14,21 @@ const LOI_TAT = [
   { href: "/danh-muc/sach-noi", label: "Sách nói", icon: Headphones },
   { href: "/tra-cuu", label: "Tra cứu sách giấy", icon: Library },
 ];
+
+async function TaiLieuMoi() {
+  const items = await getTaiLieuMoi(8);
+  if (!items.length) return null;
+  return (
+    <section aria-labelledby="moi-cap-nhat">
+      <h2 id="moi-cap-nhat" className="text-xl font-bold">
+        Mới cập nhật
+      </h2>
+      <div className="mt-4">
+        <ResourceGrid items={items} />
+      </div>
+    </section>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -42,6 +60,10 @@ export default function HomePage() {
       </section>
 
       <div className="mx-auto max-w-6xl space-y-14 px-4 py-12">
+        <Suspense fallback={null}>
+          <TaiLieuMoi />
+        </Suspense>
+
         {NHOM_DANH_MUC.map((nhom) => (
           <section key={nhom.id} aria-labelledby={`nhom-${nhom.id}`}>
             <h2 id={`nhom-${nhom.id}`} className="text-xl font-bold">

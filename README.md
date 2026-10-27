@@ -40,6 +40,17 @@ npm run drive:token
 
 Mở trình duyệt để tài khoản giữ kho sách cấp quyền, rồi ghi `GOOGLE_DRIVE_REFRESH_TOKEN` và `GOOGLE_DRIVE_ROOT_FOLDER_ID` vào `.env.local`. Cần redirect URI `http://localhost:8080/oauth2/callback` trong OAuth client.
 
+### Quản trị (`/quan-tri`)
+
+| Chức năng | Ai dùng | Ghi chú |
+|---|---|---|
+| Đăng tài liệu | Giáo viên, thủ thư, admin | File gửi thẳng từ trình duyệt lên Drive (thư mục theo danh mục), tối đa 300 MB; hoặc gắn link YouTube. Thủ thư đăng thì hiện ngay, giáo viên đăng thì chờ duyệt. |
+| Duyệt & quản lý tài liệu | Thủ thư, admin (giáo viên xem tài liệu của mình) | Duyệt → file được chia sẻ công khai trên Drive (nếu quyền “Công khai”) và chặn tải nếu không cho phép. Xoá → file vào thùng rác Drive. |
+| Sổ đăng ký cá biệt | Thủ thư, admin | Nhập Excel/CSV (file mẫu `public/mau-so-dkcb.csv`), xem trước với cảnh báo (trùng ĐKCB, dấu nháy “〃”, giá +1 đồng, năm bất thường); gom bản sách thành đầu sách; đổi tình trạng từng bản. |
+| Người dùng | Admin | Cấp quyền giáo viên / thủ thư cho tài khoản mới đăng nhập. |
+
+Tài liệu “Cần đăng nhập” / “Nội bộ” không chia sẻ công khai trên Drive; web đọc file qua `/api/tai-lieu/[id]/file` sau khi kiểm tra quyền.
+
 ### Sao lưu
 
 ```bash
