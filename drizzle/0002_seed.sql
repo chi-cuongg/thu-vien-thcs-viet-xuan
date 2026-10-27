@@ -1,6 +1,5 @@
 -- Dữ liệu khởi tạo — giữ đồng bộ với src/config/taxonomy.ts
-
-insert into public.mon_hoc (id, ten, thu_tu) values
+insert into mon_hoc (id, ten, thu_tu) values
   ('ngu-van', 'Ngữ văn', 1),
   ('toan', 'Toán', 2),
   ('tieng-anh', 'Tiếng Anh', 3),
@@ -15,8 +14,9 @@ insert into public.mon_hoc (id, ten, thu_tu) values
   ('hdtn', 'Hoạt động trải nghiệm, hướng nghiệp', 12),
   ('gddp', 'Giáo dục địa phương', 13)
 on conflict (id) do nothing;
+--> statement-breakpoint
 
-insert into public.danh_muc (slug, ten, nhom, mo_ta, thu_tu) values
+insert into danh_muc (slug, ten, nhom, mo_ta, thu_tu) values
   ('sach-giao-khoa', 'Sách giáo khoa', 'sach-dien-tu', 'SGK lớp 6–9 các bộ sách', 1),
   ('sach-nghiep-vu', 'Sách nghiệp vụ', 'sach-dien-tu', 'Sách giáo viên, tài liệu chuyên môn', 2),
   ('sach-tham-khao', 'Sách tham khảo', 'sach-dien-tu', 'Bồi dưỡng, nâng cao, ôn luyện', 3),
@@ -35,8 +35,9 @@ insert into public.danh_muc (slug, ten, nhom, mo_ta, thu_tu) values
   ('hinh-anh-hoat-dong', 'Hình ảnh hoạt động', 'hoat-dong', 'Ngày hội đọc sách, hoạt động thư viện', 16),
   ('goc-dia-phuong', 'Góc địa phương', 'hoat-dong', 'Lịch sử, văn hoá Vĩnh Tường – Phú Thọ', 17)
 on conflict (slug) do nothing;
+--> statement-breakpoint
 
-insert into public.bo_suu_tap (slug, ten, mo_ta, thu_tu) values
+insert into bo_suu_tap (slug, ten, mo_ta, thu_tu) values
   ('sach-hay-nen-doc', 'Sách hay nên đọc', 'Thư viện gợi ý mỗi tháng', 1),
   ('on-thi-vao-10', 'Ôn thi vào lớp 10', 'Đề minh hoạ, chuyên đề Toán – Văn – Anh', 2),
   ('tu-sach-bac-ho', 'Tủ sách Bác Hồ', 'Học tập và làm theo tấm gương Bác', 3),
@@ -44,8 +45,9 @@ insert into public.bo_suu_tap (slug, ten, mo_ta, thu_tu) values
   ('sach-noi', 'Sách nói', 'Nghe truyện, nghe văn học', 5),
   ('dia-phuong', 'Góc địa phương', 'Vĩnh Tường – Phú Thọ quê hương em', 6)
 on conflict (slug) do nothing;
+--> statement-breakpoint
 
-insert into public.lien_ket (nhom, ten, url, thu_tu) values
+insert into lien_ket (nhom, ten, url, thu_tu) values
   ('hoc_lieu_so', 'Hành trang số', 'https://hanhtrangso.nxbgd.vn', 1),
   ('hoc_lieu_so', 'Kho học liệu số', 'https://hoclieu.vn', 2),
   ('lien_thong_thu_vien', 'Thư viện Quốc gia Việt Nam', 'https://nlv.gov.vn', 3),

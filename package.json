@@ -7,11 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "drive:token": "node scripts/get-drive-token.mjs"
+    "drive:token": "node scripts/get-drive-token.mjs",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:backup": "node scripts/db-backup.mjs"
   },
   "dependencies": {
-    "@supabase/ssr": "^0.12.7",
-    "@supabase/supabase-js": "^2.118.0",
+    "@neondatabase/serverless": "^1.2.0",
+    "better-auth": "^1.7.14",
+    "drizzle-orm": "^0.45.4",
     "lucide-react": "^1.61.0",
     "next": "16.4.3",
     "react": "19.3.0",
@@ -19,10 +24,12 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.12",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.11",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
     "tailwindcss": "^4",

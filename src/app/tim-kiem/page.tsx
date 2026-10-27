@@ -21,7 +21,7 @@ async function KetQua({ searchParams }: Pick<PageProps<"/tim-kiem">, "searchPara
         <SearchBox defaultValue={q} />
       </div>
       <div className="mx-auto max-w-6xl px-4 py-8">
-        {/* TODO: gọi rpc tim_kiem_tai_lieu(q) trên Supabase, lọc thêm theo khối lớp */}
+        {/* TODO: tìm trong tai_lieu.search_text bằng vn_unaccent(q), lọc thêm theo khối lớp */}
         <EmptyState title={q || khoi ? "Chưa có kết quả" : "Nhập từ khoá để tìm"}>
           {q && <>Không tìm thấy tài liệu nào cho “{q}”{khoi && ` trong lớp ${khoi}`}.</>}
           {!q && khoi && <>Thư viện đang cập nhật tài liệu lớp {khoi}.</>}

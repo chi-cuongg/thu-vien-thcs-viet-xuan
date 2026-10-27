@@ -23,7 +23,7 @@ async function DanhMucContent({ params }: Pick<PageProps<"/danh-muc/[slug]">, "p
     <>
       <PageHeader title={danhMuc.ten} description={danhMuc.moTa} crumbs={[{ href: "/danh-muc", label: "Danh mục" }]} />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        {/* TODO: đọc tài liệu đã duyệt của danh mục từ Supabase (bảng tai_lieu) */}
+        {/* TODO: đọc tài liệu đã duyệt của danh mục từ Neon (bảng tai_lieu) */}
         <EmptyState title="Chưa có tài liệu">
           Thư viện đang cập nhật tài liệu cho mục này. Bạn quay lại sau nhé.
         </EmptyState>

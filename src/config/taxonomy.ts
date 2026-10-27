@@ -1,5 +1,5 @@
 // Danh mục, môn học, khối lớp, tủ sách của kho học liệu.
-// Giữ đồng bộ với supabase/seed.sql — sau khi nối CSDL, trang sẽ đọc từ bảng danh_muc / mon_hoc / bo_suu_tap.
+// Giữ đồng bộ với drizzle/0002_seed.sql — sau khi nối CSDL, trang sẽ đọc từ bảng danh_muc / mon_hoc / bo_suu_tap.
 
 export type NhomDanhMuc = "hoc-lieu" | "sach-dien-tu" | "van-ban" | "hoat-dong";
 

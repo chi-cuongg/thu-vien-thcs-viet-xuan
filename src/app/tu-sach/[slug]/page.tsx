@@ -23,7 +23,7 @@ async function TuSachContent({ params }: Pick<PageProps<"/tu-sach/[slug]">, "par
     <>
       <PageHeader title={tuSach.ten} description={tuSach.moTa} crumbs={[{ href: "/tu-sach", label: "Tủ sách" }]} />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        {/* TODO: đọc các tài liệu của bộ sưu tập từ Supabase (bảng bo_suu_tap_muc) */}
+        {/* TODO: đọc các tài liệu của bộ sưu tập từ Neon (bảng bo_suu_tap_muc) */}
         <EmptyState title="Tủ sách đang được sắp xếp">Thư viện sẽ sớm đưa sách vào tủ này.</EmptyState>
       </div>
     </>

@@ -21,7 +21,7 @@ async function KetQua({ searchParams }: Pick<PageProps<"/tra-cuu">, "searchParam
         />
       </div>
       <div className="mx-auto max-w-6xl px-4 py-8">
-        {/* TODO: gọi rpc tim_kiem_dau_sach(q), hiện số bản và số bản còn trên giá (bảng ban_sach) */}
+        {/* TODO: tìm trong dau_sach.search_text, hiện số bản và số bản còn trên giá (bảng ban_sach) */}
         <EmptyState title={tuKhoa ? `Chưa có kết quả cho “${tuKhoa}”` : "Mục lục sách giấy đang được nhập"}>
           Thư viện đang nhập dữ liệu từ sổ đăng ký cá biệt. Khi xong, bạn sẽ biết sách có trên giá hay đang được mượn.
         </EmptyState>

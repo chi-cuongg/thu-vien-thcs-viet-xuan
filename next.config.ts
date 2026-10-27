@@ -12,11 +12,10 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    // Ảnh bìa lấy từ Google Drive (thumbnail) và Supabase Storage
+    // Ảnh bìa lấy từ Google Drive (thumbnail) và ảnh đại diện Google
     remotePatterns: [
       { protocol: "https", hostname: "drive.google.com", pathname: "/thumbnail" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
-      { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" },
     ],
   },
 };

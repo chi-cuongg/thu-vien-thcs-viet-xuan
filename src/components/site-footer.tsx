@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { SITE } from "@/config/site";
 import { LIEN_KET } from "@/config/taxonomy";
@@ -10,6 +11,9 @@ export function SiteFooter() {
           <p className="font-semibold">{SITE.name}</p>
           <p className="mt-1 text-sm text-muted">{SITE.school}</p>
           <p className="text-sm text-muted">{SITE.address}</p>
+          <Link href="/quan-tri" className="mt-3 inline-block text-sm text-muted underline hover:text-primary">
+            Đăng nhập dành cho thủ thư, giáo viên
+          </Link>
         </div>
         <div>
           <p className="text-sm font-semibold">Liên kết học liệu số</p>

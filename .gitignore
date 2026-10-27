@@ -33,3 +33,6 @@ yarn-error.log*
 Thumbs.db
 .idea/
 .vscode/
+
+# sao lưu CSDL (npm run db:backup)
+/backups
