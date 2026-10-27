@@ -5,8 +5,7 @@ import { CategoryIcon } from "@/components/category-icon";
 import { ResourceGrid } from "@/components/resource-card";
 import { SearchBox } from "@/components/search-box";
 import { TuSachCard } from "@/components/tu-sach-card";
-import { NUT_CHINH } from "@/components/ui";
-import { SITE } from "@/config/site";
+import { NUT_CHINH, TONE, TONE_NHOM } from "@/components/ui";
 import { DANH_MUC, KHOI_LOP, NHOM_DANH_MUC, TU_SACH } from "@/config/taxonomy";
 import { demSachGiay, getTaiLieuMoi } from "@/db/queries";
 
@@ -16,20 +15,43 @@ const LOI_TAT = [
   { href: "/tra-cuu", label: "Tra cứu sách giấy", icon: Library },
 ];
 
+// Gáy sách trang trí trên thẻ "Mượn sách giấy": [màu, chiều cao]
+const GAY_SACH = [
+  ["bg-primary", "h-20"],
+  ["bg-tone-orange", "h-16"],
+  ["bg-tone-yellow", "h-24"],
+  ["bg-tone-green", "h-[4.5rem]"],
+  ["bg-tone-violet", "h-20"],
+  ["bg-tone-pink", "h-14"],
+];
+
+function TieuDeMuc({ id, children, link }: { id: string; children: React.ReactNode; link?: { href: string; nhan: string } }) {
+  return (
+    <div className="flex items-end justify-between gap-4">
+      <h2 id={id} className="text-2xl font-bold md:text-3xl">
+        {children}
+      </h2>
+      {link && (
+        <Link
+          href={link.href}
+          className="inline-flex min-h-10 shrink-0 items-center gap-1 rounded-full px-3 text-sm font-bold text-primary transition hover:bg-primary-soft"
+        >
+          {link.nhan} <ArrowRight className="size-4" aria-hidden />
+        </Link>
+      )}
+    </div>
+  );
+}
+
 async function TaiLieuMoi() {
   const items = await getTaiLieuMoi(8);
   if (!items.length) return null;
   return (
     <section aria-labelledby="moi-cap-nhat">
-      <div className="flex items-end justify-between gap-4">
-        <h2 id="moi-cap-nhat" className="text-xl font-bold md:text-2xl">
-          Mới cập nhật
-        </h2>
-        <Link href="/danh-muc" className="inline-flex min-h-10 items-center gap-1 text-sm font-medium text-primary hover:underline">
-          Xem danh mục <ArrowRight className="size-4" aria-hidden />
-        </Link>
-      </div>
-      <div className="mt-4">
+      <TieuDeMuc id="moi-cap-nhat" link={{ href: "/danh-muc", nhan: "Xem danh mục" }}>
+        Mới cập nhật
+      </TieuDeMuc>
+      <div className="mt-5">
         <ResourceGrid items={items} />
       </div>
     </section>
@@ -42,12 +64,12 @@ async function SoLieuKho() {
   return (
     <dl className="mt-4 grid grid-cols-2 gap-3">
       {[
-        ["đầu sách", tong.dauSach],
-        ["bản sách", tong.banSach],
-      ].map(([ten, so]) => (
-        <div key={ten} className="flex flex-col-reverse rounded-lg bg-primary-soft px-3 py-2">
-          <dt className="text-xs text-muted">{ten}</dt>
-          <dd className="text-2xl font-bold text-primary tabular-nums">{so.toLocaleString("vi-VN")}</dd>
+        ["đầu sách", tong.dauSach, "bg-primary-soft text-primary"],
+        ["bản sách", tong.banSach, "bg-tone-orange-soft text-tone-orange"],
+      ].map(([ten, so, mau]) => (
+        <div key={ten} className={`flex flex-col-reverse rounded-2xl px-4 py-3 ${mau}`}>
+          <dt className="text-xs font-bold opacity-80">{ten}</dt>
+          <dd className="font-display text-3xl font-bold tabular-nums">{so.toLocaleString("vi-VN")}</dd>
         </div>
       ))}
     </dl>
@@ -57,32 +79,40 @@ async function SoLieuKho() {
 export default function HomePage() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-border bg-primary-soft">
-        {/* Hoạ tiết nền nhẹ, chỉ để trang trí */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-soft via-bg to-tone-yellow-soft">
+        {/* Hoạ tiết nền, chỉ để trang trí */}
+        <div aria-hidden className="pointer-events-none absolute -left-20 top-10 size-56 rounded-full bg-tone-violet-soft opacity-70" />
+        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 size-96 rounded-full bg-tone-blue-soft" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-28 right-1/3 size-72 rounded-full bg-tone-pink-soft opacity-70" />
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-24 -top-24 size-96 rounded-full bg-primary opacity-[0.07]"
+          className="pointer-events-none absolute inset-0 [background-image:radial-gradient(var(--border)_1.2px,transparent_1.2px)] [background-size:22px_22px] [mask-image:linear-gradient(to_bottom,black,transparent)]"
         />
-        <div aria-hidden className="pointer-events-none absolute -bottom-32 right-40 size-72 rounded-full bg-accent opacity-[0.08]" />
 
-        <div className="relative mx-auto grid max-w-6xl gap-8 px-4 py-10 md:py-14 lg:grid-cols-[1fr_20rem] lg:items-center">
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 md:py-16 lg:grid-cols-[1fr_21rem] lg:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-accent">Kho học liệu điện tử</p>
-            <h1 className="mt-2 max-w-2xl text-3xl font-bold leading-tight text-balance md:text-5xl">{SITE.name}</h1>
-            <p className="mt-3 max-w-2xl text-muted md:text-lg">
+            <p className="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1 text-sm font-bold text-accent shadow-clay">
+              <span className="size-2 rounded-full bg-tone-orange" aria-hidden />
+              Kho học liệu điện tử
+            </p>
+            <h1 className="mt-4 max-w-2xl text-4xl font-extrabold text-balance md:text-6xl">
+              Thư viện{" "}
+              <span className="bg-gradient-to-r from-primary to-tone-violet bg-clip-text text-transparent">THCS Việt Xuân</span>
+            </h1>
+            <p className="mt-4 max-w-xl text-lg text-muted">
               Đọc sách điện tử, xem bài giảng, đề thi và tra cứu sách có trên giá của thư viện nhà trường.
             </p>
-            <div className="mt-6 max-w-2xl">
+            <div className="mt-7 max-w-2xl">
               <SearchBox size="lg" />
             </div>
 
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              <span className="mr-1 text-sm font-medium text-muted">Theo lớp:</span>
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              <span className="mr-1 text-sm font-bold text-muted">Theo lớp:</span>
               {KHOI_LOP.map((k) => (
                 <Link
                   key={k}
                   href={`/tim-kiem?khoi=${k}`}
-                  className="inline-flex min-h-10 items-center rounded-full border border-border bg-surface px-4 text-sm font-semibold transition-colors hover:border-primary hover:bg-primary hover:text-primary-fg"
+                  className="inline-flex min-h-11 items-center rounded-full border-[1.5px] border-border bg-surface px-5 font-display text-base font-bold shadow-clay transition hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-fg"
                 >
                   Lớp {k}
                 </Link>
@@ -93,7 +123,7 @@ export default function HomePage() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border bg-surface px-3.5 text-sm font-medium transition-colors hover:border-primary hover:text-primary"
+                    className="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-surface/70 px-4 text-sm font-bold text-muted transition hover:bg-surface hover:text-primary"
                   >
                     <Icon className="size-4" aria-hidden />
                     {label}
@@ -103,63 +133,66 @@ export default function HomePage() {
             </ul>
           </div>
 
-          <aside className="rounded-2xl border border-border bg-surface p-5 shadow-sm">
-            <span className="grid size-11 place-items-center rounded-xl bg-accent-soft text-accent">
-              <Library className="size-5" aria-hidden />
-            </span>
-            <h2 className="mt-3 font-bold">Mượn sách giấy</h2>
+          <aside className="the relative p-6 shadow-clay-lg lg:rotate-1">
+            <div aria-hidden className="flex h-24 items-end gap-1.5 border-b-4 border-tone-yellow-soft px-2">
+              {GAY_SACH.map(([mau, cao], i) => (
+                <span key={i} className={`w-7 rounded-t-lg shadow-nut ${mau} ${cao} ${i === 3 ? "-rotate-6" : ""}`} />
+              ))}
+            </div>
+            <h2 className="mt-4 text-xl font-bold">Mượn sách giấy</h2>
             <p className="mt-1 text-sm text-muted">Xem sách còn trên giá trước khi xuống thư viện mượn.</p>
-            <Suspense fallback={<div className="mt-4 h-16 animate-pulse rounded-lg bg-surface-muted" />}>
+            <Suspense fallback={<div className="mt-4 h-20 animate-pulse rounded-2xl bg-surface-muted" />}>
               <SoLieuKho />
             </Suspense>
-            <Link href="/tra-cuu" className={`${NUT_CHINH} mt-4 w-full`}>
+            <Link href="/tra-cuu" className={`${NUT_CHINH} mt-5 w-full`}>
               Tra cứu sách giấy <ArrowRight className="size-4" aria-hidden />
             </Link>
           </aside>
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl space-y-14 px-4 py-12">
+      <div className="mx-auto max-w-6xl space-y-16 px-4 py-14">
         <Suspense fallback={null}>
           <TaiLieuMoi />
         </Suspense>
 
-        {NHOM_DANH_MUC.map((nhom) => (
-          <section key={nhom.id} aria-labelledby={`nhom-${nhom.id}`}>
-            <h2 id={`nhom-${nhom.id}`} className="text-xl font-bold md:text-2xl">
-              {nhom.ten}
-            </h2>
-            <ul className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-              {DANH_MUC.filter((d) => d.nhom === nhom.id).map((d) => (
-                <li key={d.slug}>
-                  <Link
-                    href={`/danh-muc/${d.slug}`}
-                    className="group flex h-full flex-col gap-3 rounded-xl border border-border bg-surface p-4 transition hover:-translate-y-0.5 hover:border-primary hover:shadow-md sm:flex-row sm:items-start"
-                  >
-                    <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary-soft text-primary transition-colors group-hover:bg-primary group-hover:text-primary-fg">
-                      <CategoryIcon name={d.icon} className="size-5" />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block font-semibold leading-snug group-hover:text-primary">{d.ten}</span>
-                      <span className="mt-0.5 line-clamp-2 block text-sm text-muted">{d.moTa}</span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+        {NHOM_DANH_MUC.map((nhom) => {
+          const tone = TONE[TONE_NHOM[nhom.id]];
+          return (
+            <section key={nhom.id} aria-labelledby={`nhom-${nhom.id}`}>
+              <TieuDeMuc id={`nhom-${nhom.id}`}>
+                <span className={`mr-3 inline-block h-6 w-2 rounded-full align-[-0.1em] ${tone.vach}`} aria-hidden />
+                {nhom.ten}
+              </TieuDeMuc>
+              <ul className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
+                {DANH_MUC.filter((d) => d.nhom === nhom.id).map((d) => (
+                  <li key={d.slug}>
+                    <Link
+                      href={`/danh-muc/${d.slug}`}
+                      className={`the group flex h-full flex-col gap-3 p-4 transition hover:-translate-y-1 hover:shadow-clay-lg sm:p-5 ${tone.vien}`}
+                    >
+                      <span
+                        className={`grid size-12 shrink-0 -rotate-3 place-items-center rounded-2xl shadow-clay transition-transform group-hover:rotate-3 ${tone.chip}`}
+                      >
+                        <CategoryIcon name={d.icon} className="size-6" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block font-display text-lg font-bold leading-tight">{d.ten}</span>
+                        <span className="mt-1 line-clamp-2 block text-sm text-muted">{d.moTa}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })}
 
         <section aria-labelledby="tu-sach">
-          <div className="flex items-end justify-between gap-4">
-            <h2 id="tu-sach" className="text-xl font-bold md:text-2xl">
-              Tủ sách chuyên đề
-            </h2>
-            <Link href="/tu-sach" className="inline-flex min-h-10 items-center gap-1 text-sm font-medium text-primary hover:underline">
-              Xem tất cả <ArrowRight className="size-4" aria-hidden />
-            </Link>
-          </div>
-          <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <TieuDeMuc id="tu-sach" link={{ href: "/tu-sach", nhan: "Xem tất cả" }}>
+            Tủ sách chuyên đề
+          </TieuDeMuc>
+          <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TU_SACH.map((t) => (
               <li key={t.slug}>
                 <TuSachCard tuSach={t} />

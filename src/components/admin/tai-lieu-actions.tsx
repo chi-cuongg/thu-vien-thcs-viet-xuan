@@ -16,11 +16,11 @@ export function NutTaiLieu({ id, trangThai, laThuThu }: { id: number; trangThai:
     });
   }
 
-  const nut = "inline-flex min-h-10 items-center rounded-lg border px-3 text-sm font-medium transition-colors disabled:opacity-50";
+  const nut = "inline-flex min-h-10 items-center rounded-full border-[1.5px] px-4 text-sm font-bold transition disabled:opacity-50";
   return (
     <div className="flex shrink-0 flex-wrap gap-2" aria-busy={pending}>
       {laThuThu && trangThai !== "da_duyet" && (
-        <button type="button" disabled={pending} onClick={() => chay(() => duyetTaiLieu(id))} className={`${nut} border-primary bg-primary text-primary-fg hover:opacity-90`}>
+        <button type="button" disabled={pending} onClick={() => chay(() => duyetTaiLieu(id))} className={`${nut} border-primary bg-primary text-primary-fg shadow-nut hover:brightness-110`}>
           Duyệt
         </button>
       )}

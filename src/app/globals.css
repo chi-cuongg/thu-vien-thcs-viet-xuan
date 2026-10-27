@@ -1,42 +1,87 @@
 @import "tailwindcss";
 
+/*
+  Phong cách "Soft Clay": claymorphism tiết chế cho học sinh THCS —
+  thẻ trắng bo tròn lớn, bóng đôi mềm ánh xanh, nút dạng viên thuốc có "độ dày",
+  mỗi nhóm danh mục một màu (tone-*) cho trang tươi sáng mà chữ vẫn đạt tương phản 4.5:1.
+*/
 :root {
-  --bg: #f7f5f0;
+  color-scheme: light;
+  --bg: #f4f7ff;
   --surface: #ffffff;
-  --surface-muted: #efece4;
-  --fg: #1d232b;
-  --muted: #5b6573;
-  --border: #e2ddd1;
-  --primary: #1e4d7a;
+  --surface-muted: #eef2fb;
+  --fg: #16203a;
+  --muted: #56627a;
+  --border: #dfe6f5;
+  --primary: #2563eb;
   --primary-fg: #ffffff;
-  --primary-soft: #e3ecf5;
-  --accent: #b45309;
-  --accent-soft: #fbeedd;
-  --success: #166534;
+  --primary-soft: #e4edff;
+  --accent: #c2410c;
+  --accent-soft: #ffedd5;
+  --success: #15803d;
   --success-soft: #dcfce7;
   --danger: #b91c1c;
   --danger-soft: #fee2e2;
+
+  /* Màu theo nhóm: chữ/icon và nền nhạt đi cặp với nhau */
+  --tone-blue: #1d4ed8;
+  --tone-blue-soft: #e4edff;
+  --tone-violet: #6d28d9;
+  --tone-violet-soft: #ede9fe;
+  --tone-green: #047857;
+  --tone-green-soft: #d1fae5;
+  --tone-orange: #c2410c;
+  --tone-orange-soft: #ffedd5;
+  --tone-pink: #be185d;
+  --tone-pink-soft: #fce7f3;
+  --tone-yellow: #a16207;
+  --tone-yellow-soft: #fef3c7;
+
+  --clay: 0 1px 2px rgb(22 32 58 / 0.04), 0 10px 24px -10px rgb(37 99 235 / 0.2), inset 0 -3px 0 rgb(22 32 58 / 0.04);
+  --clay-lg: 0 2px 4px rgb(22 32 58 / 0.05), 0 22px 40px -14px rgb(37 99 235 / 0.3), inset 0 -4px 0 rgb(22 32 58 / 0.05);
+  --clay-btn: inset 0 -3px 0 rgb(0 0 0 / 0.2), 0 8px 16px -8px rgb(37 99 235 / 0.7);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #11161c;
-    --surface: #182029;
-    --surface-muted: #1f2934;
-    --fg: #e6e9ed;
-    --muted: #9aa5b2;
-    --border: #2a3542;
-    --primary: #8ab8e6;
-    --primary-fg: #0f1a26;
-    --primary-soft: #1d2f43;
-    --accent: #f0b35a;
-    --accent-soft: #3a2b16;
-    --success: #86efac;
-    --success-soft: #14321f;
-    --danger: #fca5a5;
-    --danger-soft: #3b1618;
-  }
+/* Giao diện tối: script trong <head> (layout.tsx) đặt data-theme theo lựa chọn đã lưu,
+   hoặc theo cài đặt của máy nếu người dùng chưa chọn. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1424;
+  --surface: #182035;
+  --surface-muted: #1f2942;
+  --fg: #e8ecf6;
+  --muted: #a3aec4;
+  --border: #2a3552;
+  --primary: #7aa7ff;
+  --primary-fg: #0b1430;
+  --primary-soft: #1c2b4f;
+  --accent: #fdba74;
+  --accent-soft: #3a2716;
+  --success: #86efac;
+  --success-soft: #14321f;
+  --danger: #fca5a5;
+  --danger-soft: #3b1618;
+
+  --tone-blue: #93c5fd;
+  --tone-blue-soft: #1c2b4f;
+  --tone-violet: #c4b5fd;
+  --tone-violet-soft: #2a2150;
+  --tone-green: #6ee7b7;
+  --tone-green-soft: #123329;
+  --tone-orange: #fdba74;
+  --tone-orange-soft: #3a2716;
+  --tone-pink: #f9a8d4;
+  --tone-pink-soft: #3a1a2c;
+  --tone-yellow: #fde68a;
+  --tone-yellow-soft: #352b10;
+
+  --clay: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 24px -10px rgb(0 0 0 / 0.6), inset 0 -3px 0 rgb(0 0 0 / 0.2);
+  --clay-lg: 0 2px 4px rgb(0 0 0 / 0.3), 0 22px 40px -14px rgb(0 0 0 / 0.7), inset 0 -4px 0 rgb(0 0 0 / 0.25);
+  --clay-btn: inset 0 -3px 0 rgb(0 0 0 / 0.25), 0 8px 16px -8px rgb(0 0 0 / 0.6);
 }
+
+/* Biến thể dark: của Tailwind áp dụng khi <html data-theme="dark"> */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
   --color-bg: var(--bg);
@@ -54,7 +99,31 @@
   --color-success-soft: var(--success-soft);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
-  --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+  --color-tone-blue: var(--tone-blue);
+  --color-tone-blue-soft: var(--tone-blue-soft);
+  --color-tone-violet: var(--tone-violet);
+  --color-tone-violet-soft: var(--tone-violet-soft);
+  --color-tone-green: var(--tone-green);
+  --color-tone-green-soft: var(--tone-green-soft);
+  --color-tone-orange: var(--tone-orange);
+  --color-tone-orange-soft: var(--tone-orange-soft);
+  --color-tone-pink: var(--tone-pink);
+  --color-tone-pink-soft: var(--tone-pink-soft);
+  --color-tone-yellow: var(--tone-yellow);
+  --color-tone-yellow-soft: var(--tone-yellow-soft);
+  --shadow-clay: var(--clay);
+  --shadow-clay-lg: var(--clay-lg);
+  --shadow-nut: var(--clay-btn);
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-baloo), var(--font-nunito), ui-sans-serif, sans-serif;
+}
+
+/* Thẻ nền trắng chuẩn của giao diện */
+@utility the {
+  background-color: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 1.5rem;
+  box-shadow: var(--clay);
 }
 
 @layer base {
@@ -68,6 +137,14 @@
     color: var(--fg);
   }
 
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
   /* Tailwind v4 bỏ con trỏ bàn tay mặc định của nút */
   button:not(:disabled),
   [role="button"],
@@ -78,7 +155,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 3px solid var(--primary);
     outline-offset: 2px;
   }
 }

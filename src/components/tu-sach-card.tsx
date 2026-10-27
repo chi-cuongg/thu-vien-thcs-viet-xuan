@@ -1,22 +1,26 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { CategoryIcon } from "@/components/category-icon";
-import type { TU_SACH } from "@/config/taxonomy";
+import { TONE, type Tone } from "@/components/ui";
+import { TU_SACH } from "@/config/taxonomy";
+
+const TONE_TU: Tone[] = ["yellow", "orange", "pink", "green", "violet", "blue"];
 
 export function TuSachCard({ tuSach: t }: { tuSach: (typeof TU_SACH)[number] }) {
+  const tone = TONE[TONE_TU[TU_SACH.indexOf(t) % TONE_TU.length]];
   return (
     <Link
       href={`/tu-sach/${t.slug}`}
-      className="group flex h-full items-start gap-4 rounded-xl border border-border bg-accent-soft p-5 transition hover:-translate-y-0.5 hover:border-accent hover:shadow-md"
+      className={`the group flex h-full items-center gap-4 p-4 transition hover:-translate-y-1 hover:shadow-clay-lg ${tone.vien}`}
     >
-      <span className="grid size-11 shrink-0 place-items-center rounded-full bg-surface text-accent">
-        <CategoryIcon name={t.icon} className="size-5" />
+      <span className={`grid size-14 shrink-0 -rotate-3 place-items-center rounded-2xl shadow-clay transition-transform group-hover:rotate-3 ${tone.chip}`}>
+        <CategoryIcon name={t.icon} className="size-6" />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block font-semibold">{t.ten}</span>
+        <span className="block font-display text-lg font-bold leading-tight">{t.ten}</span>
         <span className="mt-1 block text-sm text-muted">{t.moTa}</span>
       </span>
-      <ArrowRight className="mt-1 size-4 shrink-0 text-accent transition-transform group-hover:translate-x-0.5" aria-hidden />
+      <ArrowRight className="size-5 shrink-0 text-muted transition group-hover:translate-x-1 group-hover:text-fg" aria-hidden />
     </Link>
   );
 }

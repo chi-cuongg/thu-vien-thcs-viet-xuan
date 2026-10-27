@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
-import { Be_Vietnam_Pro } from "next/font/google";
+import { Baloo_2, Nunito } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SITE } from "@/config/site";
+import { SCRIPT_GIAO_DIEN } from "@/lib/giao-dien";
 import "./globals.css";
 
-const beVietnam = Be_Vietnam_Pro({
-  variable: "--font-be-vietnam",
+// Nunito cho nội dung (tròn, dễ đọc), Baloo 2 cho tiêu đề (thân thiện) — cả hai có bộ chữ tiếng Việt
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["vietnamese", "latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const baloo = Baloo_2({
+  variable: "--font-baloo",
+  subsets: ["vietnamese", "latin"],
+  weight: ["600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -18,12 +26,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="vi" className={`${beVietnam.variable} h-full antialiased`}>
+    // suppressHydrationWarning: script bên dưới gắn data-theme lên <html> trước khi React hydrate
+    <html lang="vi" className={`${nunito.variable} ${baloo.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_GIAO_DIEN }} />
+      </head>
       {/* pb trên điện thoại: chừa chỗ cho thanh điều hướng ở đáy */}
       <body className="flex min-h-full flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] font-sans md:pb-0">
         <a
           href="#noi-dung"
-          className="sr-only z-50 rounded-lg bg-primary px-4 py-2 font-semibold text-primary-fg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-50 rounded-full bg-primary px-5 py-2.5 font-bold text-primary-fg shadow-nut focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Bỏ qua, tới nội dung chính
         </a>

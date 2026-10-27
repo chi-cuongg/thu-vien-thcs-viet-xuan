@@ -5,18 +5,20 @@ import { LIEN_KET } from "@/config/taxonomy";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-border bg-surface">
+    <footer className="mt-16 rounded-t-[2.5rem] border-t-[1.5px] border-border bg-surface">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.4fr]">
         <div>
-          <p className="flex items-center gap-2 font-semibold">
-            <Library className="size-5 text-primary" aria-hidden />
+          <p className="flex items-center gap-2 font-display text-lg font-bold">
+            <span className="grid size-9 -rotate-3 place-items-center rounded-xl bg-gradient-to-br from-primary to-tone-violet text-primary-fg">
+              <Library className="size-4" aria-hidden />
+            </span>
             {SITE.name}
           </p>
           <p className="mt-2 text-sm text-muted">{SITE.school}</p>
           <p className="text-sm text-muted">{SITE.address}</p>
           <Link
             href="/quan-tri"
-            className="mt-4 inline-flex min-h-10 items-center rounded-lg border border-border px-3 text-sm font-medium text-muted transition-colors hover:border-primary hover:text-primary"
+            className="mt-4 inline-flex min-h-10 items-center rounded-full border-[1.5px] border-border px-4 text-sm font-bold text-muted transition hover:border-primary hover:text-primary"
           >
             Đăng nhập dành cho thủ thư, giáo viên
           </Link>

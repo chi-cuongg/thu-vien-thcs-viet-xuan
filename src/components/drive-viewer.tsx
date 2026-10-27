@@ -3,7 +3,7 @@ import { drivePreviewUrl } from "@/lib/drive-urls";
 /** Trình đọc PDF/tài liệu của Google Drive nhúng vào trang. File phải được chia sẻ "ai có link đều xem". */
 export function DriveViewer({ fileId, title }: { fileId: string; title: string }) {
   return (
-    <div className="aspect-[3/4] w-full overflow-hidden rounded-xl border border-border bg-surface-muted md:aspect-[4/3]">
+    <div className="aspect-[3/4] w-full overflow-hidden rounded-3xl border-[1.5px] border-border bg-surface-muted shadow-clay md:aspect-[4/3]">
       <iframe
         src={drivePreviewUrl(fileId)}
         title={title}

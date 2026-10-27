@@ -20,13 +20,13 @@ async function KetQua({ tuKhoa }: { tuKhoa: string }) {
 
   if (!tuKhoa) {
     return (
-      <div className="rounded-2xl border border-border bg-surface p-5 md:p-6">
+      <div className="the p-5 md:p-6">
         <p className="flex items-center gap-2 font-semibold">
           <Lightbulb className="size-5 text-accent" aria-hidden /> Có thể tìm theo
         </p>
         <ul className="mt-4 grid gap-3 sm:grid-cols-3">
           {GOI_Y.map(([ten, vd]) => (
-            <li key={ten} className="rounded-xl bg-surface-muted p-4">
+            <li key={ten} className="rounded-2xl bg-surface-muted p-4">
               <p className="font-medium">{ten}</p>
               <p className="mt-1 text-sm text-muted">{vd}</p>
             </li>
@@ -55,7 +55,7 @@ async function KetQua({ tuKhoa }: { tuKhoa: string }) {
       <p className="mb-4 text-sm text-muted" role="status">
         <strong className="text-fg">{ketQua.length}</strong> đầu sách khớp “{tuKhoa}”
       </p>
-      <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-surface">
+      <ul className="divide-y divide-border overflow-hidden the">
         {ketQua.map((s) => {
           const con = s.conTrenGia > 0;
           return (
@@ -116,7 +116,7 @@ export default function TraCuuPage({ searchParams }: PageProps<"/tra-cuu">) {
       <Suspense
         fallback={
           <div className="mx-auto max-w-6xl px-4 py-6">
-            <div className="h-12 animate-pulse rounded-xl bg-surface-muted" />
+            <div className="h-13 animate-pulse rounded-full bg-surface-muted" />
           </div>
         }
       >

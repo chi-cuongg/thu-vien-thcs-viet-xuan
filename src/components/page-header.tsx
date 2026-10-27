@@ -13,10 +13,11 @@ export function PageHeader({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="border-b border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-4 py-6 md:py-8">
+    <div className="relative overflow-hidden bg-gradient-to-br from-primary-soft via-bg to-tone-violet-soft">
+      <div aria-hidden className="pointer-events-none absolute -right-16 -top-20 size-64 rounded-full bg-tone-yellow-soft opacity-80" />
+      <div className="relative mx-auto max-w-6xl px-4 py-7 md:py-10">
         <nav aria-label="Đường dẫn">
-          <ol className="flex flex-wrap items-center gap-1 text-sm text-muted">
+          <ol className="flex flex-wrap items-center gap-1 text-sm font-semibold text-muted">
             {[{ href: "/", label: "Trang chủ" }, ...crumbs].map((c) => (
               <li key={c.href} className="inline-flex items-center gap-1">
                 <Link href={c.href} className="hover:text-primary hover:underline">
@@ -30,8 +31,8 @@ export function PageHeader({
             </li>
           </ol>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold text-balance md:text-3xl">{title}</h1>
-        {description && <p className="mt-2 max-w-2xl text-muted">{description}</p>}
+        <h1 className="mt-2 text-3xl font-bold text-balance md:text-4xl">{title}</h1>
+        {description && <p className="mt-2 max-w-2xl text-muted md:text-lg">{description}</p>}
         {children && <div className="mt-5">{children}</div>}
       </div>
     </div>

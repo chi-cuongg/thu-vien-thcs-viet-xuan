@@ -115,7 +115,7 @@ export default function TimKiemPage({ searchParams }: PageProps<"/tim-kiem">) {
       <Suspense
         fallback={
           <div className="mx-auto max-w-6xl px-4 py-6">
-            <div className="h-12 animate-pulse rounded-xl bg-surface-muted" />
+            <div className="h-13 animate-pulse rounded-full bg-surface-muted" />
           </div>
         }
       >

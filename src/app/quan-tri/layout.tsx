@@ -12,7 +12,7 @@ const MENU = [
 export default function QuanTriLayout({ children }: LayoutProps<"/quan-tri">) {
   return (
     <>
-      <div className="border-b border-border bg-surface">
+      <div className="border-b-[1.5px] border-border bg-surface">
         <nav aria-label="Quản trị" className="mx-auto max-w-6xl overflow-x-auto px-4 [scrollbar-width:none]">
           <ul className="flex gap-1 py-2 text-sm font-medium">
             {MENU.map(({ href, label, icon: Icon }) => (
@@ -20,7 +20,7 @@ export default function QuanTriLayout({ children }: LayoutProps<"/quan-tri">) {
                 <NavLink
                   href={href}
                   exact={href === "/quan-tri"}
-                  className="inline-flex min-h-10 items-center gap-2 rounded-lg px-3 text-muted transition-colors hover:bg-surface-muted hover:text-fg"
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full px-4 font-bold text-muted transition hover:bg-surface-muted hover:text-fg"
                   activeClassName="bg-primary-soft !text-primary"
                 >
                   <Icon className="size-4" aria-hidden />

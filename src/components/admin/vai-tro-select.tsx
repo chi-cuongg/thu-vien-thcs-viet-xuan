@@ -22,7 +22,7 @@ export function VaiTroSelect({ userId, vaiTro, khoa }: { userId: string; vaiTro:
           router.refresh();
         });
       }}
-      className="min-h-10 rounded-lg border border-border bg-surface px-3 text-sm disabled:opacity-60"
+      className="min-h-10 rounded-full border-[1.5px] border-border bg-surface px-4 text-sm font-semibold disabled:opacity-60"
     >
       {(Object.keys(TEN_VAI_TRO) as VaiTro[]).map((v) => (
         <option key={v} value={v}>

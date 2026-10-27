@@ -24,7 +24,7 @@ async function XemCanDangNhap({ t }: { t: ChiTiet }) {
   const session = await getSession();
   if (!session) {
     return (
-      <div className="grid aspect-[4/3] place-items-center rounded-xl border border-border bg-surface-muted p-6 text-center">
+      <div className="grid aspect-[4/3] place-items-center rounded-3xl border-[1.5px] border-dashed border-border bg-surface-muted p-6 text-center">
         <div>
           <span className="mx-auto grid size-14 place-items-center rounded-full bg-surface text-muted">
             <Lock className="size-7" aria-hidden />
@@ -39,7 +39,7 @@ async function XemCanDangNhap({ t }: { t: ChiTiet }) {
     );
   }
   return (
-    <div className="aspect-[3/4] w-full overflow-hidden rounded-xl border border-border md:aspect-[4/3]">
+    <div className="aspect-[3/4] w-full overflow-hidden rounded-3xl border-[1.5px] border-border shadow-clay md:aspect-[4/3]">
       <iframe src={`/api/tai-lieu/${t.id}/file`} title={t.tieuDe} className="size-full" />
     </div>
   );
@@ -48,7 +48,7 @@ async function XemCanDangNhap({ t }: { t: ChiTiet }) {
 function NoiDungXem({ t }: { t: ChiTiet }) {
   if (t.youtubeId) {
     return (
-      <div className="aspect-video w-full overflow-hidden rounded-xl border border-border bg-black">
+      <div className="aspect-video w-full overflow-hidden rounded-3xl border-[1.5px] border-border bg-black shadow-clay">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${t.youtubeId}`}
           title={t.tieuDe}
@@ -78,7 +78,7 @@ function NoiDungXem({ t }: { t: ChiTiet }) {
     );
   }
   return (
-    <Suspense fallback={<div className="aspect-[4/3] rounded-xl bg-surface-muted" aria-busy />}>
+    <Suspense fallback={<div className="aspect-[4/3] animate-pulse rounded-3xl bg-surface-muted" aria-busy />}>
       <XemCanDangNhap t={t} />
     </Suspense>
   );
@@ -120,7 +120,7 @@ async function ChiTietTaiLieu({ params }: Pick<PageProps<"/tai-lieu/[slug]">, "p
               <Download className="size-4" aria-hidden /> Tải về
             </a>
           )}
-          <div className="rounded-xl border border-border bg-surface p-4">
+          <div className="the p-4">
             <h2 className="text-sm font-semibold">Thông tin tài liệu</h2>
             <dl className="mt-3 divide-y divide-border text-sm">
               {thongTin
@@ -128,13 +128,13 @@ async function ChiTietTaiLieu({ params }: Pick<PageProps<"/tai-lieu/[slug]">, "p
                 .map(([k, v]) => (
                   <div key={k} className="flex justify-between gap-4 py-2 first:pt-0 last:pb-0">
                     <dt className="shrink-0 text-muted">{k}</dt>
-                    <dd className="text-right font-medium">{v}</dd>
+                    <dd className="min-w-0 text-right font-semibold [overflow-wrap:anywhere]">{v}</dd>
                   </div>
                 ))}
             </dl>
           </div>
           {t.moTa && (
-            <div className="rounded-xl border border-border bg-surface p-4">
+            <div className="the p-4">
               <h2 className="text-sm font-semibold">Giới thiệu</h2>
               <p className="mt-2 whitespace-pre-line text-sm leading-relaxed">{t.moTa}</p>
             </div>
@@ -152,7 +152,7 @@ async function ChiTietTaiLieu({ params }: Pick<PageProps<"/tai-lieu/[slug]">, "p
 
 export default function TaiLieuPage({ params }: PageProps<"/tai-lieu/[slug]">) {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-6xl px-4 py-8" aria-busy><div className="aspect-[4/3] max-w-3xl animate-pulse rounded-xl bg-surface-muted" /></div>}>
+    <Suspense fallback={<div className="mx-auto max-w-6xl px-4 py-8" aria-busy><div className="aspect-[4/3] max-w-3xl animate-pulse rounded-3xl bg-surface-muted" /></div>}>
       <ChiTietTaiLieu params={params} />
     </Suspense>
   );

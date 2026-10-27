@@ -16,7 +16,7 @@ async function DanhSach() {
     .orderBy(desc(user.createdAt));
 
   return (
-    <ul className="mt-6 divide-y divide-border rounded-xl border border-border bg-surface">
+    <ul className="mt-6 divide-y divide-border the">
       {rows.map((u) => (
         <li key={u.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div className="min-w-0">
@@ -41,7 +41,7 @@ export default function NguoiDungPage() {
         Giáo viên đăng nhập bằng Google lần đầu sẽ ở trạng thái “Chưa được cấp quyền”. Chọn vai trò để cho phép đăng tài liệu
         (Giáo viên) hoặc duyệt, nhập sổ (Thủ thư).
       </p>
-      <Suspense fallback={<div className="mt-6 h-48 rounded-xl border border-border bg-surface" aria-busy />}>
+      <Suspense fallback={<div className="mt-6 h-48 the" aria-busy />}>
         <DanhSach />
       </Suspense>
     </div>

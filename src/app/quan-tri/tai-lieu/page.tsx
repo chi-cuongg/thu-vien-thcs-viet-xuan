@@ -84,7 +84,7 @@ async function DanhSach({ searchParams }: Pick<PageProps<"/quan-tri/tai-lieu">, 
         {rows.length === 0 ? (
           <EmptyState title={trangThai === "cho_duyet" ? "Không có tài liệu nào chờ duyệt" : "Không có tài liệu nào"} />
         ) : (
-          <ul className="divide-y divide-border rounded-xl border border-border bg-surface">
+          <ul className="divide-y divide-border the">
             {rows.map((r) => (
               <li key={r.id} className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between">
                 <div className="min-w-0">

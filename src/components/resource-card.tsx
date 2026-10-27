@@ -18,9 +18,9 @@ export function ResourceCard({ taiLieu: t }: { taiLieu: TheTaiLieu }) {
   return (
     <Link
       href={`/tai-lieu/${t.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-surface transition hover:-translate-y-0.5 hover:border-primary hover:shadow-md"
+      className="the group flex h-full flex-col overflow-hidden p-2 transition hover:-translate-y-1 hover:border-primary hover:shadow-clay-lg"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-surface-muted">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-primary-soft to-tone-violet-soft">
         {anh ? (
           <Image
             src={anh}
@@ -28,24 +28,24 @@ export function ResourceCard({ taiLieu: t }: { taiLieu: TheTaiLieu }) {
             fill
             unoptimized
             sizes="(min-width: 1024px) 25vw, 50vw"
-            className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+            className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
           />
         ) : (
-          <FileText className="absolute inset-0 m-auto size-10 text-muted" aria-hidden />
+          <FileText className="absolute inset-0 m-auto size-10 text-primary/60" aria-hidden />
         )}
         {t.youtubeId && <PlayCircle className="absolute inset-0 m-auto size-12 text-white drop-shadow" aria-hidden />}
-        <span className="absolute left-2 top-2 rounded-full bg-surface/90 px-2 py-0.5 text-xs font-medium backdrop-blur">
+        <span className="absolute left-2 top-2 rounded-full bg-surface/95 px-2.5 py-0.5 text-xs font-bold text-primary shadow-clay">
           {tenLoai(t.loai)}
         </span>
         {t.quyenTruyCap === "dang_nhap" && (
-          <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-surface/90 px-2 py-0.5 text-xs backdrop-blur">
+          <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-surface/95 px-2 py-0.5 text-xs font-bold shadow-clay">
             <Lock className="size-3" aria-hidden /> Cần đăng nhập
           </span>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-3">
-        <p className="line-clamp-2 font-semibold leading-snug group-hover:text-primary">{t.tieuDe}</p>
-        <p className="mt-auto pt-2 text-xs text-muted">
+      <div className="flex flex-1 flex-col px-2 pb-2 pt-3">
+        <p className="line-clamp-2 font-bold leading-snug group-hover:text-primary">{t.tieuDe}</p>
+        <p className="mt-auto pt-2 text-xs font-semibold text-muted">
           {[t.monHoc, t.khoiLop.length ? `Lớp ${t.khoiLop.join(", ")}` : null].filter(Boolean).join(" · ") || " "}
         </p>
       </div>
@@ -55,7 +55,7 @@ export function ResourceCard({ taiLieu: t }: { taiLieu: TheTaiLieu }) {
 
 export function ResourceGrid({ items }: { items: TheTaiLieu[] }) {
   return (
-    <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+    <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
       {items.map((t) => (
         <li key={t.id}>
           <ResourceCard taiLieu={t} />

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { luuTaiLieu, taoPhienUpload, type ThongTinTaiLieu } from "@/app/quan-tri/tai-lieu-actions";
+import { NUT_CHINH, NUT_PHU } from "@/components/ui";
 import { BO_SACH, DANH_MUC, KHOI_LOP, LOAI_TAI_LIEU, MON_HOC, QUYEN_TRUY_CAP } from "@/config/taxonomy";
 
 type TrangThai =
@@ -33,8 +34,8 @@ function guiFileLenDrive(uploadUrl: string, file: File, onProgress: (p: number) 
   });
 }
 
-const input = "mt-1 min-h-11 w-full rounded-lg border border-border bg-surface px-3 py-2 text-fg outline-none transition-shadow focus:border-primary focus:ring-4 focus:ring-primary/20";
-const label = "block text-sm font-medium";
+const input = "mt-1 min-h-11 w-full rounded-2xl border-[1.5px] border-border bg-surface px-4 py-2 text-fg outline-none transition-shadow focus:border-primary focus:ring-4 focus:ring-primary/20";
+const label = "block text-sm font-bold";
 
 export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
   const [trangThai, setTrangThai] = useState<TrangThai>({ buoc: "nhap" });
@@ -86,21 +87,21 @@ export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
 
   if (trangThai.buoc === "xong") {
     return (
-      <div className="rounded-xl border border-border bg-surface p-6">
+      <div className="the p-6">
         <p className="font-semibold">Đã đăng tài liệu.</p>
         <p className="mt-1 text-sm text-muted">
           {trangThai.daDuyet ? "Tài liệu đã hiển thị trên website." : "Tài liệu đang chờ thủ thư duyệt."}
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           {trangThai.daDuyet && (
-            <Link href={`/tai-lieu/${trangThai.slug}`} className="rounded-lg bg-primary px-4 py-2 font-semibold text-primary-fg">
+            <Link href={`/tai-lieu/${trangThai.slug}`} className={NUT_CHINH}>
               Xem tài liệu
             </Link>
           )}
           <button
             type="button"
             onClick={() => setTrangThai({ buoc: "nhap" })}
-            className="rounded-lg border border-border px-4 py-2 font-medium hover:bg-surface-muted"
+            className={NUT_PHU}
           >
             Đăng tài liệu khác
           </button>
@@ -112,18 +113,18 @@ export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
   const dangXuLy = trangThai.buoc === "dang-tai" || trangThai.buoc === "dang-luu";
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6 rounded-xl border border-border bg-surface p-5 md:p-6">
+    <form onSubmit={onSubmit} className="space-y-6 the p-5 md:p-6">
       <fieldset disabled={dangXuLy} className="space-y-6">
         <div>
           <span className={label}>Nội dung</span>
-          <div className="mt-2 inline-flex rounded-lg border border-border bg-surface-muted p-1 text-sm">
+          <div className="mt-2 inline-flex rounded-full bg-surface-muted p-1 text-sm">
             {(["file", "youtube"] as const).map((n) => (
               <button
                 key={n}
                 type="button"
                 aria-pressed={nguon === n}
                 onClick={() => setNguon(n)}
-                className={`min-h-9 rounded-md px-4 font-medium transition-colors ${nguon === n ? "bg-surface text-primary shadow-sm" : "text-muted hover:text-fg"}`}
+                className={`min-h-9 rounded-full px-4 font-bold transition ${nguon === n ? "bg-surface text-primary shadow-clay" : "text-muted hover:text-fg"}`}
               >
                 {n === "file" ? "Tải file lên" : "Video YouTube"}
               </button>
@@ -135,7 +136,7 @@ export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
               type="file"
               required
               aria-label="Chọn file tài liệu"
-              className={`${input} border-dashed py-3 file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-primary-soft file:px-3 file:py-1.5 file:font-medium file:text-primary`}
+              className={`${input} border-dashed py-3 file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary-soft file:px-4 file:py-1.5 file:font-bold file:text-primary`}
             />
           ) : (
             <input name="youtubeUrl" type="url" required placeholder="https://www.youtube.com/watch?v=…" className={input} />
@@ -238,13 +239,13 @@ export function UploadForm({ laThuThu }: { laThuThu: boolean }) {
       )}
       {trangThai.buoc === "dang-luu" && <p className="text-sm text-muted" aria-live="polite">Đang lưu thông tin…</p>}
       {trangThai.buoc === "loi" && (
-        <p role="alert" className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">
+        <p role="alert" className="rounded-2xl bg-danger-soft px-4 py-3 text-sm text-danger">
           {trangThai.thongBao}
         </p>
       )}
 
       <div className="flex items-center gap-3">
-        <button type="submit" disabled={dangXuLy} className="inline-flex min-h-11 items-center rounded-lg bg-primary px-5 font-semibold text-primary-fg transition-opacity hover:opacity-90 disabled:opacity-60">
+        <button type="submit" disabled={dangXuLy} className={NUT_CHINH}>
           {laThuThu ? "Đăng tài liệu" : "Gửi để thủ thư duyệt"}
         </button>
       </div>

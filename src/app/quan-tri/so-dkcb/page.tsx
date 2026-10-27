@@ -55,7 +55,7 @@ async function NoiDung({ searchParams }: Pick<PageProps<"/quan-tri/so-dkcb">, "s
           ["Đang mượn", tongHop.dangMuon.toLocaleString("vi-VN")],
           ["Tổng giá trị", `${Number(tongHop.tongGia).toLocaleString("vi-VN")} đ`],
         ].map(([ten, giaTri]) => (
-          <div key={ten} className="rounded-xl border border-border bg-surface p-4">
+          <div key={ten} className="the p-4">
             <dt className="text-sm text-muted">{ten}</dt>
             <dd className="mt-1 text-2xl font-bold">{giaTri}</dd>
           </div>
@@ -78,7 +78,7 @@ async function NoiDung({ searchParams }: Pick<PageProps<"/quan-tri/so-dkcb">, "s
           {dsDauSach.length === 0 ? (
             <EmptyState title={tuKhoa ? "Không tìm thấy sách" : "Chưa có sách nào trong sổ"} />
           ) : (
-            <ul className="divide-y divide-border rounded-xl border border-border bg-surface">
+            <ul className="divide-y divide-border the">
               {dsDauSach.map((d) => {
                 const ban = dsBan.filter((b) => b.dauSachId === d.id);
                 return (
@@ -129,7 +129,7 @@ export default function SoDkcbPage({ searchParams }: PageProps<"/quan-tri/so-dkc
     <div className="mx-auto max-w-6xl px-4 py-8">
       <h1 className="text-2xl font-bold">Sổ đăng ký cá biệt</h1>
       <p className="mt-1 text-sm text-muted">Nhập sổ từ Excel/CSV, tra cứu và cập nhật tình trạng từng bản sách.</p>
-      <Suspense fallback={<div className="mt-6 h-64 rounded-xl border border-border bg-surface" aria-busy />}>
+      <Suspense fallback={<div className="mt-6 h-64 the" aria-busy />}>
         <NoiDung searchParams={searchParams} />
       </Suspense>
     </div>
