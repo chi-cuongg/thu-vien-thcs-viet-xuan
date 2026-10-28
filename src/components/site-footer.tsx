@@ -14,8 +14,7 @@ export function SiteFooter() {
             </span>
             {SITE.name}
           </p>
-          <p className="mt-2 text-sm text-muted">{SITE.school}</p>
-          <p className="text-sm text-muted">{SITE.address}</p>
+          <p className="mt-2 text-sm text-muted">{SITE.address}</p>
           <Link
             href="/quan-tri"
             className="mt-4 inline-flex min-h-10 items-center rounded-full border-[1.5px] border-border px-4 text-sm font-bold text-muted transition hover:border-primary hover:text-primary"

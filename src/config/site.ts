@@ -1,9 +1,9 @@
 export const SITE = {
-  name: "Thư viện THCS Việt Xuân",
+  name: "Thư viện THCS Vĩnh Thành - Phân hiệu Việt Xuân",
   shortName: "Thư viện Việt Xuân",
   school: "THCS Vĩnh Thành - Phân hiệu Việt Xuân",
   address: "Xã Vĩnh Thành, tỉnh Phú Thọ",
-  description: "Kho học liệu điện tử và tra cứu sách của Thư viện Trường THCS Việt Xuân.",
+  description: "Kho học liệu điện tử và tra cứu sách của Thư viện THCS Vĩnh Thành - Phân hiệu Việt Xuân.",
 };
 
 // icon: tên icon lucide, map trong components/category-icon.tsx; nhan: nhãn ngắn cho menu điện thoại

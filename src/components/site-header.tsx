@@ -46,7 +46,7 @@ export function SiteHeader() {
             <span className="min-w-0">
               {/* Chữ nhỏ hơn dưới lg để tên trường không bị cắt cạnh menu và nút tài khoản */}
               <span className="block truncate font-display text-base font-bold leading-tight lg:text-lg">{SITE.name}</span>
-              <span className="block truncate text-xs font-semibold text-muted">{SITE.school}</span>
+              <span className="block truncate text-xs font-semibold text-muted">{SITE.address}</span>
             </span>
           </Link>
           <div className="flex items-center gap-2">

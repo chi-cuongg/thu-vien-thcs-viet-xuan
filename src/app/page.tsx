@@ -97,7 +97,7 @@ export default function HomePage() {
             </p>
             <h1 className="mt-4 max-w-2xl text-4xl font-extrabold text-balance md:text-6xl">
               Thư viện{" "}
-              <span className="bg-gradient-to-r from-primary to-tone-violet bg-clip-text text-transparent">THCS Việt Xuân</span>
+              <span className="bg-gradient-to-r from-primary to-tone-violet bg-clip-text text-transparent">THCS Vĩnh Thành - Phân hiệu Việt Xuân</span>
             </h1>
             <p className="mt-4 max-w-xl text-lg text-muted">
               Đọc sách điện tử, xem bài giảng, đề thi và tra cứu sách có trên giá của thư viện nhà trường.
