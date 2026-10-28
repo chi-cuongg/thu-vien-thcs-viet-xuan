@@ -20,8 +20,18 @@ const baloo = Baloo_2({
 });
 
 export const metadata: Metadata = {
+  // Địa chỉ gốc cho link ảnh xem trước khi chia sẻ (Zalo, Facebook cần URL tuyệt đối)
+  metadataBase: new URL(process.env.BETTER_AUTH_URL || "http://localhost:3000"),
   title: { default: SITE.name, template: `%s · ${SITE.shortName}` },
   description: SITE.description,
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    siteName: SITE.name,
+    title: SITE.name,
+    description: SITE.description,
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

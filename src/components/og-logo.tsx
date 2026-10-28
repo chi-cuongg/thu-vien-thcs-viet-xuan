@@ -1,0 +1,32 @@
+// Logo dùng trong ảnh sinh bằng next/og (apple-icon, ảnh xem trước khi chia sẻ link) — cùng hình với src/app/icon.svg
+export function OgLogo({ size, radius }: { size: number; radius: number }) {
+  return (
+    <div
+      style={{
+        width: size,
+        height: size,
+        borderRadius: radius,
+        background: "linear-gradient(135deg, #2563eb, #6d28d9)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <svg
+        width={size * 0.56}
+        height={size * 0.56}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#fff"
+        strokeWidth={2.4}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="m16 6 4 14" />
+        <path d="M12 6v14" />
+        <path d="M8 8v12" />
+        <path d="M4 4v16" />
+      </svg>
+    </div>
+  );
+}
