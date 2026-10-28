@@ -1,6 +1,6 @@
 # Thư viện THCS Việt Xuân – Kho học liệu điện tử
 
-Website thư viện số của Trường THCS Vĩnh Thành – Phân hiệu Việt Xuân: đọc sách điện tử, học liệu, đề thi và tra cứu sách giấy của thư viện. Toàn bộ chạy trên gói miễn phí, không cần cron.
+Website thư viện số của Trường THCS Vĩnh Thành - Phân hiệu Việt Xuân: đọc sách điện tử, học liệu, đề thi và tra cứu sách giấy của thư viện. Toàn bộ chạy trên gói miễn phí, không cần cron.
 
 - **Next.js 16** (App Router, Cache Components) + Tailwind CSS 4, deploy trên **Vercel**
 - **Neon Postgres** + **Drizzle ORM** lưu thông tin sách, tài liệu, người dùng (DB tự ngủ khi không dùng, không bị tạm dừng)

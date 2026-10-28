@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Thư viện THCS Việt Xuân",
   shortName: "Thư viện Việt Xuân",
-  school: "Trường THCS Vĩnh Thành – Phân hiệu Việt Xuân",
+  school: "THCS Vĩnh Thành - Phân hiệu Việt Xuân",
   address: "Xã Vĩnh Thành, tỉnh Phú Thọ",
   description: "Kho học liệu điện tử và tra cứu sách của Thư viện Trường THCS Việt Xuân.",
 };
