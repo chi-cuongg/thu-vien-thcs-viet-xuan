@@ -99,6 +99,10 @@ export default function HomePage() {
               Thư viện{" "}
               <span className="bg-gradient-to-r from-primary to-tone-violet bg-clip-text text-transparent">THCS Vĩnh Thành - Phân hiệu Việt Xuân</span>
             </h1>
+            <p className="mt-4 inline-flex items-center gap-2 rounded-2xl border-[1.5px] border-tone-violet-soft bg-surface px-4 py-2 shadow-clay">
+              <span className="text-sm font-bold text-muted">Thủ thư</span>
+              <span className="font-display text-lg font-extrabold text-accent md:text-xl">Trần Thị Thu Hằng</span>
+            </p>
             <p className="mt-4 max-w-xl text-lg text-muted">
               Đọc sách điện tử, xem bài giảng, đề thi và tra cứu sách có trên giá của thư viện nhà trường.
             </p>
